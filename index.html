@@ -1,0 +1,3564 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F1E8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Cena" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Cena — Akşam Sofran</title>
+
+  <!-- Inline SVG Favicon & Dynamic PNG Apple Touch Icon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23C85A32'/%3E%3Cpath d='M28 19c-1.8-3.2 1.6-6.4 5-7.4-2.5 3-3 5.2-1.8 7.4z' fill='%23F7F1E8'/%3E%3Ccircle cx='32' cy='22' r='2.4' fill='%23F7F1E8'/%3E%3Cpath d='M15 39c0-10.2 7.2-15.4 17-15.4S49 28.8 49 39H15z' fill='%23F7F1E8'/%3E%3Crect x='11' y='41.5' width='42' height='3.8' rx='1.9' fill='%23F7F1E8'/%3E%3Cpath d='M19 47.5c3.4 5 7.8 6.8 13 6.8s9.6-1.8 13-6.8H19z' fill='%23F7F1E8' fill-opacity='0.92'/%3E%3C/svg%3E" />
+  <link id="apple-touch-icon-link" rel="apple-touch-icon" sizes="180x180" href="" />
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          },
+          colors: {
+            cream: '#F7F1E8',
+            surface: '#FFFDF9',
+            sand: '#EFE6DA',
+            terracotta: '#C85A32',
+            terracottaDark: '#A84724',
+            olive: '#556B2F',
+            oliveDark: '#425324',
+            espresso: '#2C221E',
+            muted: '#7A6A5E',
+          },
+          boxShadow: {
+            'device': '0 32px 84px -18px rgba(44, 34, 30, 0.34), 0 0 0 1px rgba(44, 34, 30, 0.08)',
+            'card': '0 16px 34px -12px rgba(44, 34, 30, 0.22)',
+            'soft': '0 6px 20px -8px rgba(44, 34, 30, 0.09)',
+            'nav': '0 -8px 24px -10px rgba(44, 34, 30, 0.09)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #F7F1E8;
+      color: #2C221E;
+      overscroll-behavior-y: none;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    .font-editorial { font-family: 'Playfair Display', Georgia, serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* iOS Safe-Area Top & Bottom Helpers (Seamless Warm Beige #F7F1E8) */
+    .safe-top-beige {
+      padding-top: max(12px, env(safe-area-inset-top));
+      background-color: #F7F1E8;
+    }
+    .safe-top-strip {
+      height: env(safe-area-inset-top, 0px);
+      background-color: #F7F1E8;
+      flex-shrink: 0;
+    }
+    .safe-bottom-nav {
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
+    .safe-bottom-sheet {
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+    }
+
+    /* Wide Desktop Preview: Keep Mockup Phone Frame */
+    @media (min-width: 521px) and (not (display-mode: standalone)) {
+      body {
+        background: radial-gradient(circle at top left, #F7F1E8 0%, #EAE0D2 52%, #DDD0BE 100%);
+        padding: 16px;
+      }
+      #app-shell {
+        width: 426px;
+        max-width: 430px;
+        height: 864px;
+        max-height: 94dvh;
+        border-radius: 40px;
+        box-shadow: 0 32px 84px -18px rgba(44, 34, 30, 0.34), 0 0 0 1px rgba(44, 34, 30, 0.08);
+        border: 6px solid rgba(44, 34, 30, 0.9);
+      }
+      #desktop-status-bar {
+        display: flex;
+      }
+    }
+
+    /* Real Mobile Screens & iOS/Android Standalone PWA: Full-Bleed Borderless */
+    @media (max-width: 520px), all and (display-mode: standalone) {
+      html, body {
+        background: #F7F1E8 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #app-shell {
+        width: 100% !important;
+        height: 100dvh !important;
+        max-width: none !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background-color: #F7F1E8 !important;
+      }
+      #desktop-status-bar {
+        display: none !important;
+      }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.88); }
+      70% { transform: scale(1.03); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      30% { transform: scale(1.18); }
+      55% { transform: scale(0.95); }
+    }
+    @keyframes steamFloat {
+      0%, 100% { transform: translateY(0px); opacity: 0.7; }
+      50% { transform: translateY(-6px); opacity: 1; }
+    }
+    .animate-fade-up { animation: fadeSlideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .animate-pop-in { animation: popIn 0.34s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .animate-heart { animation: heartPulse 1.4s ease-in-out infinite; }
+    .animate-steam { animation: steamFloat 2.2s ease-in-out infinite; }
+
+    /* Swipe Card Physics States */
+    .swipe-card-active { touch-action: none; cursor: grab; user-select: none; }
+    .swipe-card-active:active { cursor: grabbing; }
+    .swipe-card-flipped { touch-action: pan-y; cursor: default; }
+
+    /* Graceful Image Fallback Pattern */
+    .fallback-dots {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.5px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+  </style>
+</head>
+<body class="min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+
+  <!-- ===================================================================== -->
+  <!-- APP FRAME (Full-bleed beige PWA on mobile, phone mockup on desktop)   -->
+  <!-- ===================================================================== -->
+  <div id="app-shell"
+       class="relative w-full h-[100dvh] bg-cream overflow-hidden flex flex-col">
+
+    <!-- Subtle Mobile Status Bar (Shown ONLY on Desktop Preview) -->
+    <div id="desktop-status-bar" class="hidden items-center justify-between px-7 pt-3 pb-1 text-[11px] font-semibold text-espresso/65 bg-cream shrink-0 select-none z-20">
+      <span id="status-clock">20:30</span>
+      <div class="w-24 h-5 bg-espresso rounded-full flex items-center justify-center">
+        <div class="w-2 h-2 rounded-full bg-muted/60 ml-12"></div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+        <i data-lucide="battery-full" class="w-4 h-4"></i>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MAIN VIEWPORT: 4 TABS (KEŞFET, KATEGORİLER, BİRLİKTE, KAYDEDİLENLER)-->
+    <!-- =================================================================== -->
+    <main class="flex-1 relative overflow-hidden flex flex-col">
+
+      <!-- ================================================================= -->
+      <!-- TAB 1: KEŞFET (HOME)                                              -->
+      <!-- ================================================================= -->
+      <section id="tab-explore" class="flex-1 overflow-y-auto no-scrollbar pb-6">
+        <!-- Sticky Top Header + Live Search + Category Pills -->
+        <div class="sticky top-0 z-10 safe-top-beige px-5 pb-3 border-b border-[#E9DFD1] space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <!-- Cena Brand Logo & Subtitle -->
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-10 h-10 rounded-[13px] bg-gradient-to-br from-[#D96B43] via-terracotta to-terracottaDark shadow-md shadow-terracotta/25 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 36 36" class="w-6 h-6" fill="none" aria-hidden="true">
+                  <path d="M15 9.5C14 7.5 16 5.5 18 5C16.5 6.8 16.2 8.2 17 9.5Z" fill="#FAF6F0"/>
+                  <circle cx="18" cy="11.5" r="1.4" fill="#FAF6F0"/>
+                  <path d="M8 21.5C8 15.5 12.2 12.5 18 12.5C23.8 12.5 28 15.5 28 21.5H8Z" fill="#FAF6F0"/>
+                  <rect x="6" y="23" width="24" height="2.2" rx="1.1" fill="#FAF6F0"/>
+                  <path d="M10.5 26.5C12.5 29.5 15 30.5 18 30.5C21 30.5 23.5 29.5 25.5 26.5H10.5Z" fill="#FAF6F0" fill-opacity="0.9"/>
+                </svg>
+              </div>
+              <div class="min-w-0">
+                <h1 class="font-editorial text-[26px] font-extrabold tracking-tight text-espresso leading-none">Cena</h1>
+                <p class="text-[11px] font-semibold text-muted tracking-wide mt-0.5">Akşam Sofran</p>
+              </div>
+            </div>
+
+            <!-- Saved Counter Shortcut -->
+            <button id="btn-header-saved" type="button"
+                    class="h-9 px-3 rounded-2xl bg-surface border border-espresso/10 flex items-center gap-1.5 text-espresso hover:border-terracotta active:scale-95 transition shadow-sm shrink-0">
+              <i data-lucide="heart" class="w-3.5 h-3.5 text-terracotta fill-terracotta"></i>
+              <span class="text-[11px] font-bold text-muted">Kaydedilen</span>
+              <span id="header-saved-count" class="text-xs font-extrabold text-espresso">3</span>
+            </button>
+          </div>
+
+          <!-- Live Search Bar -->
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <input id="explore-search" type="text" placeholder="Tarif veya malzeme ara..."
+                   class="w-full pl-10 pr-9 py-2.5 rounded-2xl bg-surface border border-espresso/10 text-sm font-medium text-espresso placeholder:text-muted/65 focus:outline-none focus:border-terracotta focus:ring-2 focus:ring-terracotta/15 transition" />
+            <button id="btn-clear-search" type="button" aria-label="Aramayı temizle"
+                    class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-sand text-muted flex items-center justify-center hover:text-espresso">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Horizontal Scrollable Category + Crowd Filter Pills -->
+          <div id="explore-category-strip" class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 pt-0.5 pb-0.5"></div>
+        </div>
+
+        <!-- Scrollable Home Body -->
+        <div class="px-5 pt-4 space-y-4">
+
+          <!-- Featured Hero Card: Günün Öne Çıkan Tarifi -->
+          <div id="explore-hero-section">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-extrabold uppercase tracking-widest text-terracotta flex items-center gap-1">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                Günün Öne Çıkan Tarifi
+              </span>
+              <span id="hero-tag-pill" class="text-[11px] font-bold text-olive">Davet Sofrası</span>
+            </div>
+
+            <div id="explore-hero-card"
+                 class="relative h-56 rounded-[28px] overflow-hidden bg-espresso shadow-card cursor-pointer group active:scale-[0.99] transition">
+              <img id="hero-img" src="" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              <div id="hero-fallback" class="hidden"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-espresso/95 via-espresso/30 to-espresso/15"></div>
+
+              <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span id="hero-cat-badge" class="px-3 py-1 rounded-full bg-surface/95 backdrop-blur-md text-espresso text-[11px] font-extrabold shadow-sm">
+                    Ana Yemek
+                  </span>
+                  <span id="hero-servings-badge" class="px-2.5 py-1 rounded-full bg-olive/92 backdrop-blur-md text-white text-[10px] font-extrabold">
+                    8 Kişilik
+                  </span>
+                </div>
+                <button id="hero-fav-btn" type="button" aria-label="Tarifi kaydet"
+                        class="w-9 h-9 rounded-full bg-black/35 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/55 active:scale-90 transition">
+                  <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+                <div class="text-white min-w-0">
+                  <h2 id="hero-title" class="font-editorial text-[22px] font-bold leading-tight drop-shadow-sm"></h2>
+                  <div id="hero-meta" class="flex flex-wrap items-center gap-2 text-[11px] font-bold text-white/85 mt-1"></div>
+                </div>
+                <span class="shrink-0 px-3.5 py-2 rounded-xl bg-terracotta text-white text-xs font-extrabold shadow-md flex items-center gap-1">
+                  <span>Tarife Git</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compact Social Banner Inviting User to Birlikte Mode -->
+          <button id="btn-promo-birlikte" type="button"
+                  class="w-full text-left rounded-[24px] p-3.5 bg-gradient-to-r from-terracotta via-[#B8522E] to-olive text-white shadow-md shadow-terracotta/20 hover:brightness-105 active:scale-[0.98] transition relative overflow-hidden">
+            <div class="absolute -right-5 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
+            <div class="relative z-10 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="flex -space-x-2 shrink-0">
+                  <div class="w-9 h-9 rounded-full bg-espresso text-cream text-xs font-extrabold flex items-center justify-center ring-2 ring-cream/90">S</div>
+                  <div id="promo-partner-initial" class="w-9 h-9 rounded-full bg-sand text-espresso text-xs font-extrabold flex items-center justify-center ring-2 ring-cream/90">Z</div>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-[12.5px] font-extrabold leading-snug">Akşama ne pişirsek? Arkadaşınla kartları kaydırıp eşleş</p>
+                  <p class="text-[10.5px] font-semibold text-white/85 mt-0.5">Birlikte seç &amp; eksik malzemeleri bölüş →</p>
+                </div>
+              </div>
+            </div>
+          </button>
+
+          <!-- 2-Column Visual Recipe Grid -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 id="explore-grid-heading" class="font-editorial text-lg font-bold text-espresso">Tüm Tarifler</h3>
+              <span id="explore-grid-count" class="text-xs font-bold text-muted">22 tarif</span>
+            </div>
+
+            <div id="explore-grid" class="grid grid-cols-2 gap-3.5"></div>
+
+            <!-- Empty Search State -->
+            <div id="explore-empty" class="hidden py-10 px-6 text-center bg-surface rounded-3xl border border-espresso/8 shadow-soft space-y-2.5">
+              <div class="w-12 h-12 rounded-2xl bg-sand text-muted mx-auto flex items-center justify-center">
+                <i data-lucide="search-x" class="w-6 h-6"></i>
+              </div>
+              <p class="text-sm font-extrabold text-espresso">Aramana uygun tarif bulunamadı</p>
+              <p class="text-xs text-muted">Farklı bir malzeme yazabilir veya tüm kategorilere dönebilirsin.</p>
+              <button id="btn-clear-all-explore" type="button"
+                      class="mt-1 px-4 py-2 rounded-xl bg-terracotta text-white text-xs font-extrabold active:scale-95 transition">
+                Tüm Tarifleri Göster
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 2: KATEGORİLER & AKŞAM MENÜNÜ OLUŞTUR (NO AUTO-SUGGEST)       -->
+      <!-- ================================================================= -->
+      <section id="tab-categories" class="hidden flex-1 overflow-y-auto no-scrollbar pb-6">
+        <header class="sticky top-0 z-10 safe-top-beige px-5 pb-3 border-b border-[#E9DFD1]">
+          <h1 class="font-editorial text-2xl font-extrabold text-espresso">Kategoriler</h1>
+          <p class="text-xs font-medium text-muted mt-0.5">6 mutfak kategorisini keşfet veya akşam menünü kendin kur</p>
+        </header>
+
+        <div class="px-5 pt-4 space-y-5">
+          <!-- 6 Large Visual Category Cards -->
+          <div id="categories-grid" class="grid grid-cols-2 gap-3.5"></div>
+
+          <!-- Interactive 5-Course Evening Menu Planner (Manual Selection Only) -->
+          <div class="bg-surface rounded-[28px] p-4 shadow-soft border border-espresso/8 space-y-3.5">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-terracotta/10 text-terracotta text-[10px] font-extrabold uppercase tracking-wider">
+                  <i data-lucide="utensils" class="w-3 h-3"></i>
+                  5 Aşamalı Sofra
+                </span>
+                <h2 class="font-editorial text-lg font-bold text-espresso mt-1">Akşam Menünü Oluştur</h2>
+                <p class="text-[11px] font-medium text-muted mt-0.5">Her aşama için dilediğin tarifi seç; seçtiğin yemeğe dokunup tarifine geç</p>
+              </div>
+              <button id="btn-clear-menu" type="button"
+                      class="hidden shrink-0 px-2.5 py-1.5 rounded-xl bg-sand hover:bg-terracotta hover:text-white text-muted text-[10.5px] font-extrabold items-center gap-1 active:scale-95 transition">
+                <i data-lucide="trash-2" class="w-3 h-3"></i>
+                <span>Temizle</span>
+              </button>
+            </div>
+
+            <!-- 5 Course Slots -->
+            <div id="menu-builder-slots" class="space-y-2"></div>
+
+            <!-- Menu Summary -->
+            <div class="pt-2.5 border-t border-espresso/8 flex items-center justify-between text-xs">
+              <span id="menu-summary-count" class="font-extrabold text-espresso">0 / 5 yemek seçildi</span>
+              <span id="menu-summary-time" class="font-semibold text-muted">Henüz seçim yok</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 3: BİRLİKTE (FRIEND MODE: SWIPE / EŞLEŞMELER / ORTAK LİSTE)   -->
+      <!-- ================================================================= -->
+      <section id="tab-together" class="hidden flex-1 flex flex-col overflow-hidden">
+        <!-- Fixed Header + Room Info + Sub-navigation -->
+        <div class="safe-top-beige px-5 pb-3 border-b border-[#E9DFD1] space-y-3 shrink-0">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-widest text-olive">
+                <i data-lucide="users" class="w-3 h-3"></i>
+                Arkadaş Modu
+              </span>
+              <h1 class="font-editorial text-2xl font-extrabold text-espresso leading-tight">Birlikte</h1>
+            </div>
+
+            <button id="btn-copy-invite" type="button"
+                    class="h-9 px-3 rounded-xl bg-surface border border-espresso/10 hover:border-terracotta text-[11px] font-extrabold text-espresso active:scale-95 transition flex items-center gap-1.5 shadow-sm shrink-0">
+              <i data-lucide="link-2" class="w-3.5 h-3.5 text-terracotta"></i>
+              <span>cena.app/masa/4829</span>
+            </button>
+          </div>
+
+          <!-- Editable Friend Name Bar -->
+          <div class="bg-surface rounded-2xl px-3.5 py-2.5 border border-espresso/8 shadow-soft flex items-center gap-2.5">
+            <div class="flex -space-x-1.5 shrink-0">
+              <div class="w-7 h-7 rounded-full bg-terracotta text-white text-[11px] font-extrabold flex items-center justify-center ring-2 ring-surface">S</div>
+              <div id="room-partner-avatar" class="w-7 h-7 rounded-full bg-olive text-white text-[11px] font-extrabold flex items-center justify-center ring-2 ring-surface">Z</div>
+            </div>
+            <div class="min-w-0 flex-1 flex items-center gap-2">
+              <label for="input-partner-name" class="text-[11px] font-bold text-muted shrink-0">Mutfak Arkadaşın:</label>
+              <input id="input-partner-name" type="text" maxlength="18" value="Zeynep" placeholder="Arkadaş adı..."
+                     class="w-full min-w-0 text-xs font-extrabold text-espresso bg-transparent border-b border-dashed border-espresso/25 focus:border-terracotta focus:outline-none py-0.5" />
+            </div>
+          </div>
+
+          <!-- 3-Segment Sub-Navigation inside Birlikte -->
+          <div class="grid grid-cols-3 gap-1 bg-sand p-1 rounded-2xl">
+            <button type="button" data-subtab="swipe" class="together-sub-btn py-2 px-2 rounded-xl text-[11px] font-extrabold transition flex items-center justify-center gap-1">
+              <span>Kartları Kaydır</span>
+            </button>
+            <button type="button" data-subtab="matches" class="together-sub-btn py-2 px-2 rounded-xl text-[11px] font-extrabold transition flex items-center justify-center gap-1">
+              <span>Eşleşmeler</span>
+              <span id="subtab-matches-badge" class="hidden min-w-[16px] h-4 px-1 rounded-full bg-terracotta text-white text-[9px] font-extrabold inline-flex items-center justify-center">0</span>
+            </button>
+            <button type="button" data-subtab="grocery" class="together-sub-btn py-2 px-2 rounded-xl text-[11px] font-extrabold transition flex items-center justify-center gap-1">
+              <span>Ortak Liste</span>
+              <span id="subtab-grocery-badge" class="hidden min-w-[16px] h-4 px-1 rounded-full bg-olive text-white text-[9px] font-extrabold inline-flex items-center justify-center">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable Sub-Tab Body -->
+        <div class="flex-1 overflow-y-auto no-scrollbar px-5 py-3.5">
+
+          <!-- SUB-TAB A: KARTLARI KAYDIR -->
+          <div id="together-panel-swipe" class="space-y-3">
+            <!-- Filters: Multi-Select Categories + Max Prep Time -->
+            <div class="bg-surface rounded-3xl p-3 shadow-soft border border-espresso/8 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-extrabold text-espresso flex items-center gap-1">
+                  <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-terracotta"></i>
+                  Filtrele
+                </span>
+                <div class="flex items-center bg-sand p-0.5 rounded-xl">
+                  <button type="button" data-max-time="all" class="time-filter-btn px-2 py-1 rounded-lg text-[10px] font-extrabold transition">Tümü</button>
+                  <button type="button" data-max-time="20" class="time-filter-btn px-2 py-1 rounded-lg text-[10px] font-extrabold transition">20 dk altı</button>
+                  <button type="button" data-max-time="40" class="time-filter-btn px-2 py-1 rounded-lg text-[10px] font-extrabold transition">40 dk altı</button>
+                </div>
+              </div>
+              <div id="together-cat-chips" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"></div>
+            </div>
+
+            <!-- Deck Progress & Hint -->
+            <div class="flex items-center justify-between px-1 text-[11px] font-bold text-muted">
+              <span id="swipe-progress-text">Kart 1 / 22</span>
+              <span class="text-[10px]">← Geç • ↑ Malzemeler • → Yiyelim</span>
+            </div>
+
+            <!-- Swipe Card Stack -->
+            <div class="relative w-full h-[340px] flex items-center justify-center">
+              <div id="card-deck" class="relative w-full h-full"></div>
+
+              <!-- Empty Deck State -->
+              <div id="deck-empty" class="hidden w-full h-full rounded-[28px] bg-surface border border-espresso/8 shadow-soft flex flex-col items-center justify-center text-center p-5 animate-fade-up">
+                <div class="w-12 h-12 rounded-2xl bg-terracotta/12 text-terracotta flex items-center justify-center mb-2.5">
+                  <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-editorial text-lg font-bold text-espresso">Tüm Kartları Gördünüz!</h3>
+                <p id="deck-empty-summary" class="text-xs text-muted mt-1 max-w-[260px]"></p>
+                <button id="btn-restart-deck" type="button"
+                        class="mt-4 px-5 py-2.5 rounded-2xl bg-terracotta text-white font-extrabold text-xs shadow-md active:scale-[0.98] transition flex items-center gap-1.5">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                  <span>Desteyi Yeniden Başlat</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Swipe Controls -->
+            <div id="swipe-controls" class="flex items-center justify-center gap-4 pt-1 pb-2">
+              <button id="btn-swipe-undo" type="button" title="Geri Al"
+                      class="w-11 h-11 rounded-full bg-surface border border-espresso/10 text-amber-700 shadow-soft flex items-center justify-center hover:scale-105 active:scale-95 disabled:opacity-35 disabled:pointer-events-none transition">
+                <i data-lucide="undo-2" class="w-4 h-4"></i>
+              </button>
+              <button id="btn-swipe-pass" type="button" title="Geç (Sol Ok)"
+                      class="w-14 h-14 rounded-full bg-surface border-2 border-terracotta/30 text-terracotta shadow-md flex items-center justify-center hover:bg-terracotta hover:text-white active:scale-90 transition">
+                <i data-lucide="x" class="w-7 h-7 stroke-[2.6]"></i>
+              </button>
+              <button id="btn-swipe-peek" type="button" title="Malzeme Önizleme (Yukarı Ok)"
+                      class="w-11 h-11 rounded-full bg-surface border border-espresso/10 text-espresso shadow-soft flex items-center justify-center hover:border-espresso active:scale-95 transition">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+              <button id="btn-swipe-like" type="button" title="Yiyelim (Sağ Ok)"
+                      class="w-14 h-14 rounded-full bg-olive text-white shadow-lg shadow-olive/30 flex items-center justify-center hover:bg-oliveDark active:scale-90 transition">
+                <i data-lucide="heart" class="w-6 h-6 fill-white"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- SUB-TAB B: EŞLEŞMELER -->
+          <div id="together-panel-matches" class="hidden space-y-3 pb-4">
+            <div id="matches-list-container" class="space-y-2.5"></div>
+          </div>
+
+          <!-- SUB-TAB C: ORTAK LİSTE (Populated ONLY from Friend Mode Missing Items) -->
+          <div id="together-panel-grocery" class="hidden space-y-3 pb-4">
+            <div class="bg-surface rounded-3xl p-4 shadow-soft border border-espresso/8 space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <div class="min-w-0">
+                  <h2 class="font-editorial text-lg font-bold text-espresso">Ortak Alışveriş Listesi</h2>
+                  <p id="shared-summary-text" class="text-[11px] font-bold text-olive mt-0.5">Ben: 0 • Zeynep: 0</p>
+                </div>
+                <button id="btn-whatsapp-copy" type="button"
+                        class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-olive hover:bg-oliveDark text-white text-[11px] font-extrabold active:scale-95 transition shadow-sm">
+                  <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                  <span>WhatsApp İçin Kopyala</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-2xl px-3 py-2 bg-terracotta/10 border border-terracotta/20 flex items-center justify-between">
+                  <span class="text-[11px] font-bold text-terracotta">Ben Alırım</span>
+                  <span id="shared-count-me" class="text-sm font-extrabold text-terracotta">0</span>
+                </div>
+                <div class="rounded-2xl px-3 py-2 bg-olive/10 border border-olive/20 flex items-center justify-between">
+                  <span id="shared-label-partner" class="text-[11px] font-bold text-oliveDark truncate">Zeynep Alır</span>
+                  <span id="shared-count-partner" class="text-sm font-extrabold text-oliveDark">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="shared-list-container" class="space-y-2.5"></div>
+
+            <div id="shared-list-footer" class="hidden flex items-center justify-between px-1 pt-1">
+              <span id="shared-checked-count" class="text-[11px] font-bold text-muted"></span>
+              <button id="btn-clear-bought" type="button" class="text-xs font-extrabold text-terracotta hover:underline">
+                Alınanları Temizle
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 4: KAYDEDİLENLER (SAVED RECIPES)                              -->
+      <!-- ================================================================= -->
+      <section id="tab-saved" class="hidden flex-1 flex flex-col overflow-hidden">
+        <div class="safe-top-beige px-5 pb-3 border-b border-[#E9DFD1] flex items-center justify-between shrink-0">
+          <div>
+            <h1 class="font-editorial text-2xl font-extrabold text-espresso">Kaydedilenler</h1>
+            <p class="text-xs font-medium text-muted mt-0.5">Favori akşam tariflerin burada</p>
+          </div>
+          <span id="saved-count-pill" class="px-3 py-1 rounded-full bg-surface border border-espresso/10 text-xs font-extrabold text-terracotta">
+            3 tarif
+          </span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto no-scrollbar px-5 py-4 space-y-4">
+          <div id="saved-grid" class="grid grid-cols-2 gap-3.5"></div>
+
+          <div id="saved-empty" class="hidden bg-surface rounded-3xl p-7 text-center border border-espresso/8 shadow-soft space-y-2.5">
+            <div class="w-12 h-12 rounded-2xl bg-terracotta/10 text-terracotta mx-auto flex items-center justify-center">
+              <i data-lucide="heart" class="w-6 h-6"></i>
+            </div>
+            <p class="text-sm font-extrabold text-espresso">Henüz kaydedilmiş tarifin yok</p>
+            <p class="text-xs text-muted leading-relaxed">Keşfet ekranında beğendiğin yemeklerin kalp ikonuna dokunarak kendi tarif defterini oluşturabilirsin.</p>
+            <button id="btn-saved-explore" type="button"
+                    class="mt-1 px-4 py-2.5 rounded-xl bg-terracotta text-white text-xs font-extrabold active:scale-95 transition">
+              Sofrayı Keşfet
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- FIXED 4-TAB BOTTOM NAVIGATION BAR                                   -->
+    <!-- =================================================================== -->
+    <nav class="shrink-0 bg-surface/95 backdrop-blur-md border-t border-[#E9DFD1] shadow-nav px-3 pt-2 safe-bottom-nav grid grid-cols-4 gap-1 z-20">
+      <button type="button" data-tab="explore" class="nav-btn flex flex-col items-center justify-center py-1 rounded-2xl transition">
+        <i data-lucide="compass" class="w-5 h-5"></i>
+        <span class="text-[10px] font-extrabold mt-1">Keşfet</span>
+      </button>
+      <button type="button" data-tab="categories" class="nav-btn flex flex-col items-center justify-center py-1 rounded-2xl transition">
+        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        <span class="text-[10px] font-extrabold mt-1">Kategoriler</span>
+      </button>
+      <button type="button" data-tab="together" class="nav-btn relative flex flex-col items-center justify-center py-1 rounded-2xl transition">
+        <i data-lucide="users" class="w-5 h-5"></i>
+        <span class="text-[10px] font-extrabold mt-1">Birlikte</span>
+        <span id="nav-together-badge" class="hidden absolute top-0.5 right-3 min-w-[16px] h-4 px-1 rounded-full bg-olive text-white text-[9px] font-extrabold flex items-center justify-center">0</span>
+      </button>
+      <button type="button" data-tab="saved" class="nav-btn flex flex-col items-center justify-center py-1 rounded-2xl transition">
+        <i data-lucide="heart" class="w-5 h-5"></i>
+        <span class="text-[10px] font-extrabold mt-1">Kaydedilenler</span>
+      </button>
+    </nav>
+
+    <!-- =================================================================== -->
+    <!-- FULL-SCREEN OVERLAY 1: RECIPE DETAIL (SOLO MODE vs FRIEND MODE)     -->
+    <!-- =================================================================== -->
+    <div id="overlay-recipe" class="hidden absolute inset-0 z-30 bg-cream flex flex-col overflow-hidden animate-fade-up">
+      <!-- Warm Beige iOS Safe-Area Top Strip -->
+      <div class="safe-top-strip"></div>
+
+      <!-- Friend Mode Top Banner (Hidden completely in Solo Mode) -->
+      <div id="recipe-friend-banner"
+           class="hidden shrink-0 px-4 py-2.5 bg-gradient-to-r from-olive to-oliveDark text-white flex items-center justify-between gap-2 z-20 shadow-sm">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="px-2 py-0.5 rounded-full bg-terracotta text-[10px] font-extrabold shrink-0">Arkadaş Modu</span>
+          <p id="recipe-friend-text" class="text-xs font-bold truncate">Zeynep ile</p>
+        </div>
+        <button id="btn-exit-friend-mode" type="button"
+                class="px-2.5 py-1 rounded-lg bg-surface text-oliveDark text-[10px] font-extrabold hover:bg-cream active:scale-95 transition shrink-0">
+          Tek Başına
+        </button>
+      </div>
+
+      <!-- Scrollable Recipe Detail Content -->
+      <div id="recipe-scroll" class="flex-1 overflow-y-auto no-scrollbar pb-6">
+        <!-- Hero Image -->
+        <div class="relative w-full h-64 bg-espresso overflow-hidden">
+          <img id="recipe-img" src="" alt="" class="w-full h-full object-cover" />
+          <div id="recipe-fallback" class="hidden"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-espresso/95 via-espresso/30 to-espresso/30"></div>
+
+          <div class="absolute top-3.5 left-4 right-4 flex items-center justify-between">
+            <button id="btn-recipe-back" type="button" aria-label="Geri dön"
+                    class="w-10 h-10 rounded-2xl bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 active:scale-95 transition">
+              <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <button id="btn-recipe-fav" type="button" aria-label="Kaydet"
+                    class="w-10 h-10 rounded-2xl bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 active:scale-90 transition">
+              <i data-lucide="heart" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <div class="absolute bottom-4 left-4 right-4 text-white">
+            <div id="recipe-hero-badges" class="flex flex-wrap items-center gap-1.5 mb-1.5"></div>
+            <h2 id="recipe-title" class="font-editorial text-[24px] font-bold leading-tight"></h2>
+          </div>
+        </div>
+
+        <div class="px-4 pt-4 space-y-4">
+          <!-- Meta Tiles (Prep Time, Base Servings, Difficulty — NO CALORIES) -->
+          <div id="recipe-stats-grid" class="grid grid-cols-3 gap-2"></div>
+
+          <!-- Dynamic Portion Scaler: ALL SIX SIZES (2, 4, 6, 8, 10, 12 Kişilik) -->
+          <div class="bg-surface rounded-3xl p-3.5 shadow-soft border border-espresso/8 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center">
+                  <i data-lucide="users-round" class="w-3.5 h-3.5"></i>
+                </div>
+                <span class="text-xs font-extrabold text-espresso">Porsiyon Seçimi</span>
+              </div>
+              <span id="portion-active-label" class="text-[11px] font-extrabold text-terracotta">4 Kişilik</span>
+            </div>
+            <div class="grid grid-cols-6 gap-1 bg-cream p-1 rounded-2xl border border-espresso/8">
+              <button type="button" data-servings="2" class="portion-btn py-2 rounded-xl text-xs font-extrabold transition">2</button>
+              <button type="button" data-servings="4" class="portion-btn py-2 rounded-xl text-xs font-extrabold transition">4</button>
+              <button type="button" data-servings="6" class="portion-btn py-2 rounded-xl text-xs font-extrabold transition">6</button>
+              <button type="button" data-servings="8" class="portion-btn py-2 rounded-xl text-xs font-extrabold transition">8</button>
+              <button type="button" data-servings="10" class="portion-btn py-2 rounded-xl text-xs font-extrabold transition">10</button>
+              <button type="button" data-servings="12" class="portion-btn py-2 rounded-xl text-xs font-extrabold transition">12</button>
+            </div>
+          </div>
+
+          <!-- Ingredients Card (Clean in Solo Mode; Evde Var vs Eksik in Friend Mode) -->
+          <div class="bg-surface rounded-3xl p-4 shadow-soft border border-espresso/8 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-espresso/8">
+              <div>
+                <h3 class="font-editorial text-lg font-bold text-espresso">Malzemeler</h3>
+                <p id="recipe-ing-friend-hint" class="hidden text-[11px] font-semibold text-olive mt-0.5">
+                  Malzemelere dokunarak Evde Var / Eksik durumunu belirle
+                </p>
+              </div>
+              <span id="recipe-ing-count" class="text-[11px] font-bold text-muted"></span>
+            </div>
+
+            <ul id="recipe-ingredients" class="divide-y divide-espresso/6"></ul>
+
+            <!-- Friend Mode Only: Transfer Missing Items to Ortak Liste -->
+            <div id="recipe-friend-export-box" class="hidden pt-3 border-t border-espresso/8 space-y-2.5">
+              <div class="flex items-center justify-between text-[11px] font-bold px-1">
+                <span id="friend-owned-count" class="text-olive">0 evde var</span>
+                <span id="friend-missing-count" class="text-terracotta">0 eksik</span>
+              </div>
+              <button id="btn-export-missing" type="button"
+                      class="w-full py-3 px-4 rounded-2xl bg-olive hover:bg-oliveDark disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-extrabold shadow-md shadow-olive/20 flex items-center justify-center gap-2 active:scale-[0.98] transition">
+                <i data-lucide="shopping-basket" class="w-4 h-4"></i>
+                <span id="btn-export-missing-label">Eksikleri Ortak Listeye Aktar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Preparation Steps Overview -->
+          <div class="bg-surface rounded-3xl p-4 shadow-soft border border-espresso/8 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-espresso/8">
+              <h3 class="font-editorial text-lg font-bold text-espresso">Hazırlanışı</h3>
+              <span id="recipe-steps-count" class="text-[11px] font-bold text-muted">4 adım</span>
+            </div>
+            <ol id="recipe-steps-list" class="space-y-3"></ol>
+          </div>
+
+          <!-- Secondary Friend Mode Switch Button (Visible ONLY in Solo Mode) -->
+          <button id="btn-switch-friend-mode" type="button"
+                  class="w-full py-3.5 px-4 rounded-2xl bg-olive/10 hover:bg-olive/18 border border-olive/25 text-oliveDark font-extrabold text-xs active:scale-[0.98] transition flex items-center justify-center gap-2">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Arkadaşla Yap &amp; Malzeme Bölüş</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sticky Bottom Cooking CTA -->
+      <div class="shrink-0 px-4 pt-3 safe-bottom-sheet bg-surface/95 backdrop-blur-md border-t border-[#E9DFD1] shadow-nav z-20">
+        <button id="btn-start-cooking" type="button"
+                class="w-full py-3.5 px-5 rounded-2xl bg-terracotta hover:bg-terracottaDark text-white font-extrabold text-sm shadow-md shadow-terracotta/25 active:scale-[0.98] transition flex items-center justify-center gap-2">
+          <i data-lucide="flame" class="w-4 h-4"></i>
+          <span>Pişirmeye Başla</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- FULL-SCREEN OVERLAY 2: STEP-BY-STEP COOKING MODE & AFİYET OLSUN!    -->
+    <!-- =================================================================== -->
+    <div id="overlay-cooking" class="hidden absolute inset-0 z-40 bg-[#231B17] text-cream flex flex-col overflow-hidden animate-fade-up">
+      <!-- Warm Beige iOS Safe-Area Top Strip (keeps status bar beige & dark icons readable) -->
+      <div class="safe-top-strip"></div>
+
+      <!-- ACTIVE COOKING VIEW -->
+      <div id="cooking-active-view" class="flex-1 flex flex-col overflow-hidden">
+        <header class="px-4 pt-4 pb-3 bg-[#2A211C] border-b border-white/10 flex items-center justify-between gap-2 shrink-0">
+          <button id="btn-cooking-close" type="button" aria-label="Tarife dön"
+                  class="w-9 h-9 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center text-cream hover:bg-white/15 active:scale-95 transition">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+          <div class="text-center min-w-0 flex-1 px-1">
+            <p id="cooking-title" class="font-editorial text-sm font-bold text-cream truncate"></p>
+            <p id="cooking-counter" class="text-[11px] font-extrabold text-[#E88A65] uppercase tracking-wider">Adım 1 / 4</p>
+          </div>
+          <button id="btn-wake-lock" type="button"
+                  class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 border border-white/15 text-[10px] font-extrabold text-cream/85 transition shrink-0">
+            <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+            <span id="wake-lock-text">Ekranı Açık Tut</span>
+          </button>
+        </header>
+
+        <!-- Segmented Step Progress Bar -->
+        <div class="px-5 pt-3.5 pb-1 shrink-0">
+          <div id="cooking-progress" class="flex gap-1.5"></div>
+        </div>
+
+        <!-- Distraction-Free Step Card -->
+        <div class="flex-1 overflow-y-auto no-scrollbar px-5 py-4 flex flex-col justify-between gap-4">
+          <div class="bg-[#2F2520] rounded-[28px] p-5 border border-white/10 shadow-xl space-y-4">
+            <div class="flex items-center gap-3">
+              <span id="cooking-step-badge" class="w-10 h-10 rounded-2xl bg-terracotta text-white font-extrabold text-base flex items-center justify-center shrink-0">1</span>
+              <div>
+                <p class="text-[10px] font-extrabold uppercase tracking-wider text-cream/60">Şimdiki Adım</p>
+                <h2 id="cooking-step-heading" class="font-editorial text-lg font-bold text-cream">Hazırlık</h2>
+              </div>
+            </div>
+
+            <p id="cooking-instruction" class="text-[16.5px] leading-relaxed text-cream/95 font-medium"></p>
+
+            <!-- Built-in Interactive Kitchen Countdown Timer -->
+            <div id="cooking-timer-box" class="hidden rounded-2xl p-4 bg-[#231B17] border border-terracotta/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-9 h-9 rounded-xl bg-terracotta/20 text-[#E88A65] flex items-center justify-center">
+                    <i data-lucide="timer" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <p class="text-[10px] font-extrabold uppercase tracking-wider text-cream/60">Mutfak Zamanlayıcısı</p>
+                    <p id="timer-status" class="text-xs font-bold text-[#E88A65]">Başlatmaya hazır</p>
+                  </div>
+                </div>
+                <span id="timer-readout" class="text-2xl font-extrabold tabular-nums text-cream">00:00</span>
+              </div>
+
+              <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                <div id="timer-bar" class="h-full bg-terracotta rounded-full transition-all duration-300" style="width: 100%"></div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button id="btn-timer-toggle" type="button"
+                        class="py-2.5 px-3 rounded-xl bg-terracotta text-white text-xs font-extrabold flex items-center justify-center gap-1.5 active:scale-95 transition">
+                  <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
+                  <span>Başlat</span>
+                </button>
+                <button id="btn-timer-reset" type="button"
+                        class="py-2.5 px-3 rounded-xl bg-white/10 border border-white/15 text-cream text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95 transition">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                  <span>Sıfırla</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Optional Şefin İpucu Card -->
+          <div id="cooking-tip-card" class="hidden rounded-2xl p-4 bg-[#352A23] border border-[#E88A65]/25 flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl bg-terracotta/20 text-[#E88A65] flex items-center justify-center shrink-0">
+              <i data-lucide="chef-hat" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="text-[10px] font-extrabold uppercase tracking-wider text-[#E88A65]">Şefin İpucu</p>
+              <p id="cooking-tip-text" class="text-xs font-medium text-cream/85 mt-0.5 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prev / Next (Final step button says "Afiyet Olsun!") -->
+        <div class="px-5 pt-4 safe-bottom-sheet bg-[#2A211C] border-t border-white/10 grid grid-cols-2 gap-3 shrink-0">
+          <button id="btn-cooking-prev" type="button"
+                  class="py-3.5 px-4 rounded-2xl bg-white/10 border border-white/12 text-cream font-extrabold text-sm flex items-center justify-center gap-1.5 disabled:opacity-30 disabled:pointer-events-none active:scale-95 transition">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Önceki</span>
+          </button>
+          <button id="btn-cooking-next" type="button"
+                  class="py-3.5 px-4 rounded-2xl bg-terracotta hover:bg-terracottaDark text-white font-extrabold text-sm flex items-center justify-center gap-1.5 shadow-lg shadow-terracotta/30 active:scale-95 transition">
+            <span id="btn-cooking-next-label">Sonraki Adım</span>
+            <i id="btn-cooking-next-icon" data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- WARM CELEBRATORY COMPLETION VIEW: "Afiyet Olsun!" -->
+      <div id="cooking-complete-view" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-[#2A211C] via-[#3A251D] to-[#242C1F] relative overflow-hidden">
+        <div class="absolute -top-16 -left-16 w-52 h-52 rounded-full bg-terracotta/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-16 -right-16 w-52 h-52 rounded-full bg-olive/25 blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 w-full max-w-[320px] flex flex-col items-center animate-pop-in">
+          <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-terracotta to-terracottaDark shadow-xl shadow-terracotta/35 flex items-center justify-center mb-5 relative">
+            <i data-lucide="utensils-crossed" class="w-9 h-9 text-cream"></i>
+            <span class="animate-steam absolute -top-2 -right-2 w-7 h-7 rounded-full bg-olive text-white flex items-center justify-center shadow-md">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+
+          <span class="px-3 py-1 rounded-full bg-white/12 border border-white/15 text-[10px] font-extrabold uppercase tracking-widest text-amber-200 mb-2">
+            Sofra Hazır
+          </span>
+          <h2 class="font-editorial text-4xl font-extrabold text-cream leading-tight">Afiyet Olsun!</h2>
+          <p class="text-sm font-medium text-cream/85 mt-2.5 leading-relaxed">
+            Ellerinize sağlık, sofranız bereketli olsun.
+          </p>
+
+          <div class="w-full mt-5 rounded-3xl p-3.5 bg-white/10 border border-white/15 backdrop-blur-sm flex items-center gap-3 text-left">
+            <div class="w-14 h-14 rounded-2xl overflow-hidden bg-espresso shrink-0 relative">
+              <img id="complete-dish-img" src="" alt="" class="w-full h-full object-cover" />
+              <div id="complete-dish-fb" class="hidden"></div>
+            </div>
+            <div class="min-w-0">
+              <p id="complete-dish-title" class="font-editorial text-base font-bold text-cream truncate"></p>
+              <p id="complete-dish-meta" class="text-[11px] font-semibold text-amber-200/90 mt-0.5"></p>
+            </div>
+          </div>
+
+          <div class="w-full mt-6 space-y-2.5">
+            <button id="btn-complete-to-explore" type="button"
+                    class="w-full py-3.5 rounded-2xl bg-terracotta hover:bg-terracottaDark text-white font-extrabold text-sm shadow-lg shadow-terracotta/30 active:scale-[0.98] transition flex items-center justify-center gap-2">
+              <i data-lucide="compass" class="w-4 h-4"></i>
+              <span>Keşfet'e Dön</span>
+            </button>
+            <button id="btn-complete-to-recipe" type="button"
+                    class="w-full py-3 rounded-2xl bg-white/12 hover:bg-white/20 border border-white/20 text-cream font-bold text-sm active:scale-[0.98] transition">
+              Tarife Dön
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: EVENING MENU COURSE PICKER BOTTOM SHEET                      -->
+    <!-- =================================================================== -->
+    <div id="modal-menu-picker" class="hidden absolute inset-0 z-40 flex flex-col justify-end">
+      <div id="menu-picker-backdrop" class="absolute inset-0 bg-espresso/50 backdrop-blur-[2px]"></div>
+      <div class="relative z-10 bg-cream rounded-t-[32px] max-h-[78%] flex flex-col shadow-2xl safe-bottom-sheet animate-fade-up">
+        <div class="w-12 h-1.5 bg-espresso/15 rounded-full mx-auto mt-3 mb-2"></div>
+        <div class="px-5 py-2 flex items-center justify-between border-b border-espresso/8">
+          <div>
+            <h3 id="menu-picker-title" class="font-editorial text-lg font-bold text-espresso">Çorba Seç</h3>
+            <p class="text-xs font-medium text-muted">Menüne eklemek istediğin tarife dokun</p>
+          </div>
+          <button id="btn-close-menu-picker" type="button"
+                  class="w-9 h-9 rounded-full bg-surface border border-espresso/10 flex items-center justify-center text-espresso">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div id="menu-picker-list" class="p-4 space-y-2.5 overflow-y-auto no-scrollbar"></div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: CELEBRATORY CONFETTI EŞLEŞME!                                -->
+    <!-- =================================================================== -->
+    <div id="modal-match" class="hidden absolute inset-0 z-40 flex flex-col items-center justify-center p-6 text-white overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-[#2A211C]/95 via-[#5C2919]/95 to-[#2D3824]/95 backdrop-blur-md"></div>
+      <canvas id="confetti-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+
+      <div class="relative z-10 w-full max-w-[330px] flex flex-col items-center text-center animate-pop-in">
+        <div class="flex items-center justify-center mb-4">
+          <div class="w-16 h-16 rounded-full bg-terracotta text-white font-extrabold text-lg flex items-center justify-center ring-4 ring-white/90 shadow-xl">Sen</div>
+          <div class="-mx-3 z-10 w-11 h-11 rounded-full bg-surface text-terracotta flex items-center justify-center shadow-lg animate-heart">
+            <i data-lucide="heart" class="w-6 h-6 fill-terracotta"></i>
+          </div>
+          <div id="match-partner-avatar" class="w-16 h-16 rounded-full bg-olive text-white font-extrabold text-2xl flex items-center justify-center ring-4 ring-white/90 shadow-xl">Z</div>
+        </div>
+
+        <span class="px-3 py-1 rounded-full bg-white/15 border border-white/20 text-[10px] font-extrabold uppercase tracking-widest text-amber-200 mb-1.5">
+          Eşleşme!
+        </span>
+        <h2 class="font-editorial text-2xl font-bold leading-tight">Bu Akşamki Seçiminiz</h2>
+        <p id="match-subtitle" class="text-xs font-medium text-white/85 mt-1">Zeynep ile aynı yemeği beğendiniz</p>
+
+        <div class="w-full mt-5 rounded-3xl overflow-hidden bg-surface text-espresso shadow-[0_0_45px_rgba(200,90,50,0.45)] ring-2 ring-white/40">
+          <div class="relative h-44 w-full bg-espresso">
+            <img id="match-img" src="" alt="" class="w-full h-full object-cover" />
+            <div id="match-fallback" class="hidden"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-3.5 right-3.5 text-left text-white">
+              <span id="match-cat" class="text-[10px] font-extrabold uppercase tracking-wider text-amber-300"></span>
+              <h3 id="match-title" class="font-editorial text-lg font-bold leading-tight"></h3>
+              <div id="match-meta" class="flex items-center gap-2 text-[11px] font-bold text-white/90 mt-0.5"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full mt-5 space-y-2.5">
+          <button id="btn-match-open" type="button"
+                  class="w-full py-3.5 rounded-2xl bg-olive hover:bg-oliveDark text-white font-extrabold text-sm shadow-lg shadow-olive/40 active:scale-[0.98] transition flex items-center justify-center gap-2">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Tarifi Arkadaş Modunda Aç</span>
+          </button>
+          <button id="btn-match-continue" type="button"
+                  class="w-full py-3 rounded-2xl bg-white/12 hover:bg-white/20 border border-white/20 text-white font-bold text-sm active:scale-[0.98] transition">
+            Kaydırmaya Devam Et
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- TOAST NOTIFICATION CONTAINER (Zero alert/confirm)                   -->
+    <!-- =================================================================== -->
+    <div id="toast-container"
+         style="top: max(14px, calc(env(safe-area-inset-top) + 8px));"
+         class="pointer-events-none absolute left-4 right-4 z-[60] flex flex-col items-center gap-2"></div>
+
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- CENA APPLICATION ENGINE & 22 CURATED TURKISH/MEDITERRANEAN RECIPES    -->
+  <!-- ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ===================================================================
+      // 1. CATEGORIES & 5-COURSE EVENING MENU SLOTS
+      // ===================================================================
+      const CATEGORIES = [
+        { slug: 'Çorba', label: 'Çorba', desc: 'Sıcacık başlangıçlar', imageUrl: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=700&q=80', gradient: 'from-amber-600 via-orange-700 to-stone-900', icon: 'soup' },
+        { slug: 'Soğuk Başlangıç', label: 'Soğuk Başlangıç', desc: 'Zeytinyağlı & mezeler', imageUrl: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=700&q=80', gradient: 'from-emerald-700 via-green-800 to-stone-900', icon: 'salad' },
+        { slug: 'Ara Sıcak', label: 'Ara Sıcak', desc: 'Çıtır & fırın lezzetler', imageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80', gradient: 'from-orange-600 via-amber-700 to-stone-900', icon: 'flame' },
+        { slug: 'Ana Yemek', label: 'Ana Yemek', desc: 'Sofranın yıldızları', imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=700&q=80', gradient: 'from-red-700 via-rose-800 to-stone-900', icon: 'utensils' },
+        { slug: 'Salata', label: 'Salata', desc: 'Ferah & renkli kaseler', imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80', gradient: 'from-green-600 via-emerald-700 to-teal-900', icon: 'leaf' },
+        { slug: 'Tatlı', label: 'Tatlı', desc: 'Tatlı bir akşam finali', imageUrl: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=700&q=80', gradient: 'from-rose-600 via-amber-700 to-stone-900', icon: 'cake-slice' }
+      ];
+
+      const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.slug, c]));
+
+      const MENU_SLOTS = [
+        { key: 'corba', label: 'Çorba', categories: ['Çorba'], icon: 'soup' },
+        { key: 'baslangic', label: 'Başlangıç / Ara Sıcak', categories: ['Soğuk Başlangıç', 'Ara Sıcak'], icon: 'flame' },
+        { key: 'ana', label: 'Ana Yemek', categories: ['Ana Yemek'], icon: 'utensils' },
+        { key: 'salata', label: 'Salata', categories: ['Salata'], icon: 'leaf' },
+        { key: 'tatli', label: 'Tatlı', categories: ['Tatlı'], icon: 'cake-slice' }
+      ];
+
+      // ===================================================================
+      // 2. 22 CURATED TURKISH & MEDITERRANEAN RECIPES (ZERO CALORIES)
+      //    Includes natural 2, 4, 6, 8, 10, 12-person dishes; ALL scale 2..12
+      // ===================================================================
+      const RECIPES = [
+        // --- ÇORBA (3) ---
+        {
+          id: 1,
+          title: 'Süzme Mercimek Çorbası',
+          category: 'Çorba',
+          prepTime: 25,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Klasik',
+          imageUrl: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-600 via-orange-700 to-stone-900',
+          ingredients: [
+            { name: 'Kırmızı mercimek', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Kuru soğan', amount: 1, unit: 'adet' },
+            { name: 'Havuç', amount: 1, unit: 'adet' },
+            { name: 'Patates', amount: 0.5, unit: 'adet' },
+            { name: 'Sızma zeytinyağı', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Sıcak su veya sebze suyu', amount: 5, unit: 'su bardağı' },
+            { name: 'Kimyon ve zerdeçal', amount: 1, unit: 'çay kaşığı' }
+          ],
+          steps: [
+            { text: 'Zeytinyağını tencerede ısıtın. İri doğranmış soğan, havuç ve patatesi kokusu çıkana kadar kısık ateşte çevirin.', durationSec: 240, tip: 'Sebzeleri tereyağı yerine sızma zeytinyağında terletmek çorbanın tadını daha berrak yapar.' },
+            { text: 'Yıkanmış kırmızı mercimek, zerdeçal ve sıcak suyu ekleyip mercimekler tamamen yumuşayana dek pişirin.', durationSec: 900 },
+            { text: 'El blenderından geçirip ince tel süzgeçten süzün; tuz ve kimyon ekleyip 2 dakika daha tıklatın.', durationSec: 120, tip: 'Un yerine yarım patates kullanmak hem kadifemsi kıvam hem doğal bağlayıcılık sağlar.' },
+            { text: 'Pul biberli kızgın yağ ve taze limon dilimleriyle sıcak servis edin.' }
+          ]
+        },
+        {
+          id: 2,
+          title: 'Naneli Yayla Çorbası',
+          category: 'Çorba',
+          prepTime: 25,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Vejetaryen',
+          imageUrl: 'https://images.unsplash.com/photo-1588566565463-180a5b2090d2?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-stone-600 via-amber-700 to-stone-900',
+          ingredients: [
+            { name: 'Kırık veya baldo pirinç', amount: 0.5, unit: 'su bardağı' },
+            { name: 'Süzme yoğurt', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Yumurta sarısı', amount: 1, unit: 'adet' },
+            { name: 'Buğday unu', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Tereyağı', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Kuru nane', amount: 1.5, unit: 'tatlı kaşığı' },
+            { name: 'Su', amount: 5, unit: 'su bardağı' }
+          ],
+          steps: [
+            { text: 'Yıkanmış pirinci 5 su bardağı suyla pirinçler iyice yumuşayana dek haşlayın.', durationSec: 720 },
+            { text: 'Ayrı kasede yoğurt, yumurta sarısı ve unu pürüzsüz çırpın. Haşlama suyundan bir kepçe ekleyip terbiyeyi ılıştırın.', tip: 'Terbiyeyi ılıştırmak ve tuzu en son eklemek yoğurdun kesilmesini tamamen önler.' },
+            { text: 'Terbiyeyi karıştırarak tencereye aktarın ve kaynayana kadar kısık ateşte sürekli karıştırın.', durationSec: 360 },
+            { text: 'Tereyağında kızdırılmış kuru naneyi üzerine gezdirip tuzu ekleyerek servis edin.' }
+          ]
+        },
+        {
+          id: 3,
+          title: 'Köz Balkabağı Çorbası',
+          category: 'Çorba',
+          prepTime: 35,
+          difficulty: 'Kolay',
+          baseServings: 6,
+          tag: 'Vejetaryen',
+          imageUrl: 'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-orange-500 via-amber-700 to-stone-900',
+          ingredients: [
+            { name: 'Dilimlenmiş balkabağı', amount: 750, unit: 'gr' },
+            { name: 'Kuru soğan', amount: 1, unit: 'adet' },
+            { name: 'Havuç', amount: 1, unit: 'adet' },
+            { name: 'Sarımsak', amount: 3, unit: 'diş' },
+            { name: 'Sıvı krema', amount: 0.5, unit: 'su bardağı' },
+            { name: 'Sızma zeytinyağı', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Kavrulmuş kabak çekirdeği', amount: 3, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Balkabağı, soğan, havuç ve kabuklu sarımsakları zeytinyağı ile harmanlayıp 200°C fırında kenarları karamelize olana dek közleyin.', durationSec: 1200, tip: 'Sebzeleri haşlamak yerine fırında közlemek çorbaya derin ve fındıksı bir aroma verir.' },
+            { text: 'Közlenen sebzeleri kabuğundan sıyrılmış sarımsaklar ve 4 su bardağı sıcak suyla tencereye alıp pürüzsüz çekin.' },
+            { text: 'Kısık ateşte krema, tuz ve bir tutam muskat ekleyip 4 dakika ısıtın.', durationSec: 240 },
+            { text: 'Üzerine kavrulmuş kabak çekirdeği ve birkaç damla zeytinyağı gezdirip sıcak sunun.' }
+          ]
+        },
+
+        // --- SOĞUK BAŞLANGIÇ (3) ---
+        {
+          id: 4,
+          title: 'Cevizli Haydari',
+          category: 'Soğuk Başlangıç',
+          prepTime: 10,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Pratik',
+          imageUrl: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-emerald-700 via-teal-800 to-stone-900',
+          ingredients: [
+            { name: 'Süzme yoğurt', amount: 2, unit: 'su bardağı' },
+            { name: 'Ezine beyaz peynir', amount: 80, unit: 'gr' },
+            { name: 'Tereyağı', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Kuru nane', amount: 1.5, unit: 'tatlı kaşığı' },
+            { name: 'Sarımsak', amount: 1, unit: 'diş' },
+            { name: 'Taze dereotu', amount: 0.25, unit: 'demet' },
+            { name: 'İri kıyılmış ceviz içi', amount: 2, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Küçük tavada tereyağını eritin, ocaktan alıp kuru naneyi içine atarak aromasını yağa geçirin ve soğumaya bırakın.', tip: 'Naneyi soğuyan tereyağına eklemek yanmasını önler ve zümrüt yeşili rengini korur.' },
+            { text: 'Çatalla iyice ezilmiş beyaz peyniri, süzme yoğurt, rendelenmiş sarımsak ve ince kıyılmış dereotuyla pürüzsüz karıştırın.' },
+            { text: 'Soğuyan naneli yağı harca yedirip yayvan servis tabağına alın; ceviz ve zeytinyağı ile servis edin.' }
+          ]
+        },
+        {
+          id: 5,
+          title: 'Köz Biberli Muhammara',
+          category: 'Soğuk Başlangıç',
+          prepTime: 15,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Pratik',
+          imageUrl: 'https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-red-700 via-orange-700 to-stone-900',
+          ingredients: [
+            { name: 'Közlenmiş kapya biber', amount: 4, unit: 'adet' },
+            { name: 'Ceviz içi', amount: 1, unit: 'su bardağı' },
+            { name: 'Tatlı biber salçası', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Galeta unu veya bayat ekmek içi', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Hakiki nar ekşisi', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Sızma zeytinyağı', amount: 4, unit: 'yemek kaşığı' },
+            { name: 'Kimyon', amount: 1, unit: 'çay kaşığı' }
+          ],
+          steps: [
+            { text: 'Cevizleri tavada 2 dakika kuru kavurup soğutun; bu işlem muhammaranın lezzet derinliğini ikiye katlar.', durationSec: 120 },
+            { text: 'Kabukları soyulmuş köz kapya biber, kavrulmuş ceviz, salça, galeta unu, nar ekşisi, kimyon ve sarımsağı rondodan geçirin.', tip: 'Tamamen püre yerine hafif taneli bir doku bırakmak mezenin ağızda dağılmasını güzelleştirir.' },
+            { text: 'Zeytinyağını ekleyip spatula ile karıştırın, servis tabağında kaşık sırtıyla şekil verip cevizle süsleyin.' }
+          ]
+        },
+        {
+          id: 6,
+          title: 'Zeytinyağlı Enginar',
+          category: 'Soğuk Başlangıç',
+          prepTime: 35,
+          difficulty: 'Kolay',
+          baseServings: 6,
+          tag: 'Vejetaryen',
+          imageUrl: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-emerald-700 via-olive to-stone-900',
+          ingredients: [
+            { name: 'Temizlenmiş çanak enginar', amount: 6, unit: 'adet' },
+            { name: 'Bezelye', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Havuç', amount: 2, unit: 'adet' },
+            { name: 'Patates', amount: 1, unit: 'adet' },
+            { name: 'Arpacık soğan', amount: 10, unit: 'adet' },
+            { name: 'Sızma zeytinyağı', amount: 6, unit: 'yemek kaşığı' },
+            { name: 'Taze portakal ve limon suyu', amount: 0.75, unit: 'su bardağı' },
+            { name: 'Taze dereotu', amount: 0.5, unit: 'demet' }
+          ],
+          steps: [
+            { text: 'Geniş tencerede zeytinyağı ile arpacık soğan, minik küp doğranmış havuç ve patatesi 4 dakika çevirin.', durationSec: 240 },
+            { text: 'Enginar çanaklarını tencereye dizip sebzeler ve bezelyeyi çukurlarına paylaştırın.' },
+            { text: 'Portakal-limon suyu, tuz, bir çay kaşığı şeker ve 1 su bardağı sıcak su ekleyip kısık ateşte pişirin.', durationSec: 1320, tip: 'Taze portakal suyu zeytinyağlı enginara Ege mutfağına özgü parlak ve ipeksi bir sos kazandırır.' },
+            { text: 'Kendi tenceresinde soğutup üzerine bol taze dereotu serperek servis edin.' }
+          ]
+        },
+
+        // --- ARA SICAK (4) ---
+        {
+          id: 7,
+          title: 'Çıtır Paçanga Böreği',
+          category: 'Ara Sıcak',
+          prepTime: 20,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Pratik',
+          imageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-600 via-orange-700 to-red-900',
+          ingredients: [
+            { name: 'Günlük taze yufka', amount: 2, unit: 'adet' },
+            { name: 'Çemensiz pastırma', amount: 100, unit: 'gr' },
+            { name: 'Rendelenmiş kaşar peyniri', amount: 150, unit: 'gr' },
+            { name: 'Kapya ve yeşil biber', amount: 2, unit: 'adet' },
+            { name: 'Domates (çekirdeksiz)', amount: 1, unit: 'adet' },
+            { name: 'Sızma zeytinyağı', amount: 3, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Pastırmayı ince şerit kesin; biber, çekirdeği alınmış küp domates ve rendelenmiş kaşarla harmanlayın.', tip: 'Domatesin sulu çekirdek kısmını çıkarmak yufkanın çıtırlığını son lokmaya kadar korur.' },
+            { text: 'Üçgen yufkaların geniş kenarına harç koyup yanları içe kapatarak kalın rulo sarın.' },
+            { text: 'Üzerine zeytinyağı sürüp 200°C fırında altın rengini alıp çıtırlaşana dek pişirin.', durationSec: 720 },
+            { text: 'Ortadan verev kesip peyniri uzarken sıcak servis edin.' }
+          ]
+        },
+        {
+          id: 8,
+          title: 'Fırında Kabak Mücver',
+          category: 'Ara Sıcak',
+          prepTime: 30,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Fırın',
+          imageUrl: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-emerald-600 via-green-700 to-teal-900',
+          ingredients: [
+            { name: 'Orta boy kabak', amount: 3, unit: 'adet' },
+            { name: 'Havuç', amount: 1, unit: 'adet' },
+            { name: 'Yumurta', amount: 2, unit: 'adet' },
+            { name: 'Beyaz peynir', amount: 100, unit: 'gr' },
+            { name: 'Buğday unu', amount: 4, unit: 'yemek kaşığı' },
+            { name: 'Taze soğan ve dereotu', amount: 0.5, unit: 'demet' },
+            { name: 'Sızma zeytinyağı', amount: 3, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Kabak ve havucu rendeleyin; rendelenmiş kabağı temiz bir tülbentle iyice sıkarak fazla suyunu alın.', tip: 'Kabağın suyunu iyice sıkmak fırın mücverin içinin hamur kalmadan kabarık pişmesini sağlar.' },
+            { text: 'Yumurta, zeytinyağı, kıyılmış yeşillikler, ufalanmış beyaz peynir, un ve baharatlarla karıştırın.' },
+            { text: 'Yağlı kağıt serili tepsiye kaşıkla paylaştırıp 195°C fırında üzeri kızarana dek pişirin.', durationSec: 1200 },
+            { text: 'Sarımsaklı süzme yoğurt eşliğinde ılık servis edin.' }
+          ]
+        },
+        {
+          id: 9,
+          title: 'Fırında Kaşarlı Mantar',
+          category: 'Ara Sıcak',
+          prepTime: 18,
+          difficulty: 'Kolay',
+          baseServings: 2,
+          tag: 'Pratik',
+          imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-stone-700 via-amber-800 to-stone-900',
+          ingredients: [
+            { name: 'İri kültür mantarı', amount: 8, unit: 'adet' },
+            { name: 'Tereyağı', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Rendelenmiş taze kaşar', amount: 80, unit: 'gr' },
+            { name: 'Sarımsak', amount: 1, unit: 'diş' },
+            { name: 'Taze kekik', amount: 1, unit: 'çay kaşığı' }
+          ],
+          steps: [
+            { text: 'Mantarları yıkamadan nemli bir bezle silin ve saplarını dikkatlice çıkarıp fırın kabına dizin.', tip: 'Mantarları suya tutmamak fırında sulanmalarını önler ve etli dokusunu korur.' },
+            { text: 'Her mantar çukuruna minik bir parça sarımsaklı tereyağı, tuz ve taze kekik yerleştirip 200°C fırında 8 dakika pişirin.', durationSec: 480 },
+            { text: 'Üzerlerine bolca rendelenmiş kaşar koyup peynir eriyip kızarana kadar 5 dakika daha fırınlayın.', durationSec: 300 }
+          ]
+        },
+        {
+          id: 10,
+          title: 'Gaziantep Usulü İçli Köfte',
+          category: 'Ara Sıcak',
+          prepTime: 65,
+          difficulty: 'Özenli',
+          baseServings: 8,
+          tag: 'Davet Sofrası',
+          imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-700 via-terracottaDark to-stone-900',
+          ingredients: [
+            { name: 'İnce köftelik bulgur', amount: 3, unit: 'su bardağı' },
+            { name: 'İrmik', amount: 0.75, unit: 'su bardağı' },
+            { name: 'Orta yağlı dana kıyma', amount: 500, unit: 'gr' },
+            { name: 'Kuru soğan', amount: 3, unit: 'adet' },
+            { name: 'İri kırılmış ceviz içi', amount: 1, unit: 'su bardağı' },
+            { name: 'Biber salçası', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Tereyağı', amount: 3, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'İnce doğranmış soğanları tereyağında kavurun, kıymayı ekleyip suyunu çekene dek pişirin. Salça, baharat ve ceviz ekleyip harcı buzdolabında tamamen soğutun.', durationSec: 720, tip: 'İç harcın soğuyup yağının donması köfteleri doldururken dağılmamasını sağlar.' },
+            { text: 'Sıcak suyla ıslatılan bulgur ve irmiği salça, yumurta ve az unla macun kıvamına gelene kadar iyice yoğurun.', durationSec: 600 },
+            { text: 'Ceviz büyüklüğünde parçalar koparıp parmakla incecik oyun, soğuk harçla doldurup iki ucunu sivri kapatın.' },
+            { text: 'Kızgın yağda veya tuzlu-limonlu kaynar suda altın gibi olana dek pişirip limon dilimleriyle sıcak sunun.', durationSec: 360 }
+          ]
+        },
+
+        // --- ANA YEMEK (6 — Including 8 & 10-person crowd classics) ---
+        {
+          id: 11,
+          title: 'Hünkar Beğendi',
+          category: 'Ana Yemek',
+          prepTime: 50,
+          difficulty: 'Orta',
+          baseServings: 4,
+          tag: 'Klasik',
+          imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-rose-800 via-amber-800 to-stone-900',
+          ingredients: [
+            { name: 'Dana kuşbaşı et', amount: 500, unit: 'gr' },
+            { name: 'Kemer patlıcan', amount: 4, unit: 'adet' },
+            { name: 'Kuru soğan', amount: 1, unit: 'adet' },
+            { name: 'Domates salçası', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Tereyağı', amount: 2.5, unit: 'yemek kaşığı' },
+            { name: 'Buğday unu', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Süt', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Rendelenmiş kaşar peyniri', amount: 100, unit: 'gr' }
+          ],
+          steps: [
+            { text: 'Kuşbaşı etleri kızgın tencerede mühürleyin. Doğranmış soğan, salça ve sıcak su ekleyip etler lokum olana dek kısık ateşte pişirin.', durationSec: 1500 },
+            { text: 'Patlıcanları közleyip kabuklarını soyun, bıçakla incecik kıyıp birkaç damla limon suyuyla karıştırın.', durationSec: 600, tip: 'Soyulan köz patlıcanı limon suyuyla ovmak beğendinin kararmadan ipeksi beyaz kalmasını sağlar.' },
+            { text: 'Tereyağında unu kavurun, patlıcanları ezerek yedirin. Sütü azar azar ekleyip kaşar ve muskatla kıvam aldırın.', durationSec: 360 },
+            { text: 'Sıcak beğendiyi tabağa yayın, ortasına etleri yerleştirip taze kekikle servis edin.' }
+          ]
+        },
+        {
+          id: 12,
+          title: 'Kremalı Mantarlı Tavuk',
+          category: 'Ana Yemek',
+          prepTime: 25,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Pratik',
+          imageUrl: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-600 via-orange-700 to-stone-800',
+          ingredients: [
+            { name: 'Tavuk göğsü veya kemiksiz but', amount: 500, unit: 'gr' },
+            { name: 'Kültür mantarı', amount: 300, unit: 'gr' },
+            { name: 'Sıvı krema', amount: 1, unit: 'su bardağı' },
+            { name: 'Sarımsak', amount: 2, unit: 'diş' },
+            { name: 'Tereyağı', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Kekik ve karabiber', amount: 1, unit: 'çay kaşığı' }
+          ],
+          steps: [
+            { text: 'Kızgın tavada az yağ ile tavukları yüksek ateşte dışı kızarana dek soteleyip tabağa alın.', durationSec: 360 },
+            { text: 'Aynı tavada tereyağını eritip dilimlenmiş mantarları suyunu salmadan yüksek ateşte çevirin; sarımsağı ekleyin.', durationSec: 300, tip: 'Mantarlara tuzu en son eklemek sulanmasını önler ve güzelce kızarmasını sağlar.' },
+            { text: 'Tavukları tavaya geri alın, krema ve baharatları ekleyip sos kıvam alana kadar kısık ateşte pişirin.', durationSec: 300 },
+            { text: 'İnce kıyılmış maydanoz serpip sıcak servis edin.' }
+          ]
+        },
+        {
+          id: 13,
+          title: 'Fırında Karnıyarık',
+          category: 'Ana Yemek',
+          prepTime: 45,
+          difficulty: 'Orta',
+          baseServings: 6,
+          tag: 'Klasik',
+          imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-purple-900 via-red-800 to-stone-900',
+          ingredients: [
+            { name: 'Orta boy kemer patlıcan', amount: 6, unit: 'adet' },
+            { name: 'Dana kıyma', amount: 350, unit: 'gr' },
+            { name: 'Kuru soğan', amount: 2, unit: 'adet' },
+            { name: 'Domates', amount: 2, unit: 'adet' },
+            { name: 'Yeşil sivri biber', amount: 4, unit: 'adet' },
+            { name: 'Sarımsak', amount: 3, unit: 'diş' },
+            { name: 'Domates salçası', amount: 1.5, unit: 'yemek kaşığı' },
+            { name: 'Sızma zeytinyağı', amount: 4, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Alacalı soyulmuş patlıcanları zeytinyağı ile fırçalayıp 200°C fırında yumuşayana dek közleyin.', durationSec: 1200, tip: 'Kızartmak yerine fırınlamak karnıyarığı çok daha hafif ve temiz kılar.' },
+            { text: 'Tavada soğan, biber ve kıymayı kavurun; küp domates, sarımsak, yarım kaşık salça ve maydanoz ekleyip harcı hazırlayın.', durationSec: 600 },
+            { text: 'Patlıcanların ortasını açıp kıymalı harçla doldurun, üzerlerine biber ve domates dilimi yerleştirin.' },
+            { text: 'Salçalı sıcak suyu tepsiye gezdirip 190°C fırında 20 dakika pişirerek servis edin.', durationSec: 1200 }
+          ]
+        },
+        {
+          id: 14,
+          title: 'Fırında Sebzeli Dana Kavurma',
+          category: 'Ana Yemek',
+          prepTime: 75,
+          difficulty: 'Orta',
+          baseServings: 8,
+          tag: 'Davet Sofrası',
+          imageUrl: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-800 via-red-900 to-stone-950',
+          ingredients: [
+            { name: 'Dana tranç kuşbaşı', amount: 1200, unit: 'gr' },
+            { name: 'Arpacık soğan', amount: 16, unit: 'adet' },
+            { name: 'Bebek patates', amount: 600, unit: 'gr' },
+            { name: 'Kapya ve çarliston biber', amount: 4, unit: 'adet' },
+            { name: 'Sarımsak', amount: 6, unit: 'diş' },
+            { name: 'Tereyağı', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Domates salçası', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Taze kekik ve biberiye', amount: 3, unit: 'dal' }
+          ],
+          steps: [
+            { text: 'Kuşbaşı etleri geniş döküm tencerede yüksek ateşte suyunu salmadan mühürleyin, ardından kısık ateşte kendi suyunda 30 dakika yumuşatın.', durationSec: 1800 },
+            { text: 'Büyük fırın tepsisine etleri, arpacık soğanları, ikiye bölünmüş bebek patatesleri, biber ve sarımsakları alın.' },
+            { text: 'Tereyağı, sıcak suyla açılmış salça, taze kekik ve biberiyeyi harmanlayıp tepsinin üzerini ıslatılmış yağlı kağıtla kapatın.', tip: 'Islatıp sıktığınız yağlı kağıt fırında doğal buhar kapağı oluşturarak etlerin lokum gibi kalmasını sağlar.' },
+            { text: '190°C fırında 35 dakika kapalı, son 10 dakika üzeri açık kızartarak kalabalık sofraya sıcak sunun.', durationSec: 2100 }
+          ]
+        },
+        {
+          id: 15,
+          title: 'İç Pilavlı Fırın Tavuk',
+          category: 'Ana Yemek',
+          prepTime: 85,
+          difficulty: 'Özenli',
+          baseServings: 8,
+          tag: 'Davet Sofrası',
+          imageUrl: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-600 via-orange-800 to-stone-900',
+          ingredients: [
+            { name: 'Bütün köy tavuğu (iri boy)', amount: 2, unit: 'adet' },
+            { name: 'Baldo pirinç', amount: 2.5, unit: 'su bardağı' },
+            { name: 'Kuru soğan', amount: 2, unit: 'adet' },
+            { name: 'Dolmalık fıstık', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Kuş üzümü', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Tereyağı', amount: 4, unit: 'yemek kaşığı' },
+            { name: 'Tarçın ve yenibahar', amount: 1.5, unit: 'çay kaşığı' },
+            { name: 'Bal ve yoğurt (sos için)', amount: 3, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Tereyağında dolmalık fıstık ve soğanı kavurun. Pirinç, kuş üzümü, tarçın, yenibahar ve 2 su bardağı sıcak suyla iç pilavı yarı diri pişirin.', durationSec: 720 },
+            { text: 'Tavukların içini iç pilavla doldurup açık kısımlarını kürdanla kapatın. Dış yüzeylerini yoğurt, zeytinyağı, bal ve tatlı toz biber karışımıyla iyice ovun.', tip: 'Dış sosa eklenen 1 tatlı kaşığı bal fırında nar gibi parlak kızarmış bir kabuk sağlar.' },
+            { text: 'Fırın poşeti veya kapaklı büyük tepside 185°C fırında 60 dakika pişirin; son 10 dakika üstünü açıp kızartın.', durationSec: 3600 },
+            { text: 'Kalan iç pilav yatağı üzerinde tavukları servis tabağına alıp 10 dakika dinlendirerek sofraya getirin.' }
+          ]
+        },
+        {
+          id: 16,
+          title: 'Kayseri Usulü Tepsi Mantısı',
+          category: 'Ana Yemek',
+          prepTime: 65,
+          difficulty: 'Özenli',
+          baseServings: 10,
+          tag: 'Davet Sofrası',
+          imageUrl: 'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-terracotta via-amber-800 to-stone-900',
+          ingredients: [
+            { name: 'Buğday unu', amount: 5, unit: 'su bardağı' },
+            { name: 'Yumurta', amount: 2, unit: 'adet' },
+            { name: 'Dana kıyma', amount: 500, unit: 'gr' },
+            { name: 'Kuru soğan (rendelenmiş)', amount: 2, unit: 'adet' },
+            { name: 'Sıcak et suyu', amount: 4, unit: 'su bardağı' },
+            { name: 'Süzme yoğurt', amount: 3, unit: 'su bardağı' },
+            { name: 'Tereyağı', amount: 4, unit: 'yemek kaşığı' },
+            { name: 'Domates salçası ve sumak', amount: 2, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Un, yumurta, tuz ve ılık suyla sertçe bir hamur yoğurup 15 dakika dinlendirin. Kıyma, rendelenmiş soğan ve karabiberle iç harcı hazırlayın.', durationSec: 900 },
+            { text: 'Hamuru ince açıp küçük kareler kesin, ortalarına kıyma koyup iki ucunu sıkıştırarak yağlanmış geniş tepsiye sıkıca dizin.' },
+            { text: '190°C fırında mantıların üstü pembeleşene kadar 25 dakika fırınlayın.', durationSec: 1500, tip: 'Ön fırınlama mantıya benzersiz bir çıtır-yumuşak doku ve fırın aroması kazandırır.' },
+            { text: 'Salçalı sıcak et suyunu tepsiye gezdirip 15 dakika daha pişirin; sarımsaklı yoğurt, tereyağı ve sumakla servis edin.', durationSec: 900 }
+          ]
+        },
+
+        // --- SALATA (3) ---
+        {
+          id: 17,
+          title: 'Gavurdağı Salatası',
+          category: 'Salata',
+          prepTime: 15,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Klasik',
+          imageUrl: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-red-600 via-emerald-700 to-green-900',
+          ingredients: [
+            { name: 'Olgun domates', amount: 4, unit: 'adet' },
+            { name: 'Salatalık', amount: 2, unit: 'adet' },
+            { name: 'Yeşil sivri biber', amount: 2, unit: 'adet' },
+            { name: 'Kırmızı soğan', amount: 0.5, unit: 'adet' },
+            { name: 'İri kıyılmış ceviz içi', amount: 0.75, unit: 'su bardağı' },
+            { name: 'Hakiki nar ekşisi', amount: 2.5, unit: 'yemek kaşığı' },
+            { name: 'Sızma zeytinyağı', amount: 3, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Domates, salatalık, biber, kırmızı soğan ve maydanozu tavla zarından küçük eşit küpler halinde doğrayın.', tip: 'Sebzeleri ne kadar minik ve eşit doğrarsanız nar ekşili sos her kaşıkta o kadar iyi bütünleşir.' },
+            { text: 'Küçük bir kavanozda zeytinyağı, nar ekşisi, sumak ve tuzu koyulaşana dek çalkalayın.' },
+            { text: 'Sosu sebzelerle harmanlayıp üzerine bol iri ceviz serperek kaşıkla servis edin.' }
+          ]
+        },
+        {
+          id: 18,
+          title: 'Narlı Semizotu Salatası',
+          category: 'Salata',
+          prepTime: 12,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Vejetaryen',
+          imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-green-600 via-emerald-700 to-rose-900',
+          ingredients: [
+            { name: 'Taze semizotu', amount: 1, unit: 'demet' },
+            { name: 'Ayıklanmış nar tanesi', amount: 0.75, unit: 'su bardağı' },
+            { name: 'Tulum veya keçi peyniri', amount: 100, unit: 'gr' },
+            { name: 'Kavrulmuş ceviz içi', amount: 0.5, unit: 'su bardağı' },
+            { name: 'Sızma zeytinyağı', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Limon suyu ve nar ekşisi', amount: 2, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Semizotunun yapraklarını ve körpe saplarını ayıklayıp bol suda yıkayın, kurutucuyla iyice süzün.', tip: 'Yaprakların kuru olması zeytinyağlı sosun kayıp dibe çökmesini engeller.' },
+            { text: 'Geniş servis tabağına semizotlarını yayın; üzerine tulum peyniri, ceviz ve nar tanelerini serpiştirin.' },
+            { text: 'Limon suyu, nar ekşisi ve zeytinyağı sosunu sofraya çıkmadan hemen önce gezdirip servis edin.' }
+          ]
+        },
+        {
+          id: 19,
+          title: 'Roka Parmesan Salatası',
+          category: 'Salata',
+          prepTime: 10,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Pratik',
+          imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-lime-700 via-olive to-stone-900',
+          ingredients: [
+            { name: 'Körpe roka', amount: 1.5, unit: 'demet' },
+            { name: 'Çeri domates', amount: 12, unit: 'adet' },
+            { name: 'İnce yaprak parmesan peyniri', amount: 60, unit: 'gr' },
+            { name: 'Kavrulmuş çam fıstığı', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Sızma zeytinyağı', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Balzamik sirke', amount: 1.5, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Yıkanıp kurutulan körpe rokaları bıçak değdirmeden elinizle iri parçalar halinde koparın.', tip: 'Rokayı elle koparmak kesilen kenarların kararmasını önler ve acılaşmasını azaltır.' },
+            { text: 'İkiye bölünmüş çeri domatesleri ve hafifçe kavrulmuş çam fıstıklarını kasenin üzerine dağıtın.' },
+            { text: 'Zeytinyağı, balzamik sirke ve deniz tuzuyla harmanlayıp patates soyacağıyla kesilmiş parmesan yapraklarıyla tamamlayın.' }
+          ]
+        },
+
+        // --- TATLI (3 — Including 8-person Fırın Sütlaç & 12-person Trileçe) ---
+        {
+          id: 20,
+          title: 'Fırın Sütlaç',
+          category: 'Tatlı',
+          prepTime: 45,
+          difficulty: 'Kolay',
+          baseServings: 8,
+          tag: 'Davet Sofrası',
+          imageUrl: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-500 via-yellow-700 to-stone-800',
+          ingredients: [
+            { name: 'Tam yağlı süt', amount: 8, unit: 'su bardağı' },
+            { name: 'Baldo pirinç', amount: 1, unit: 'su bardağı' },
+            { name: 'Toz şeker', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Buğday veya mısır nişastası', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Yumurta sarısı', amount: 1, unit: 'adet' },
+            { name: 'Vanilya özütü', amount: 1, unit: 'çay kaşığı' },
+            { name: 'Kavrulmuş fındık içi', amount: 4, unit: 'yemek kaşığı' }
+          ],
+          steps: [
+            { text: 'Yıkanmış pirinci 2,5 su bardağı suyla kısık ateşte tamamen yumuşayıp suyunu çekene dek haşlayın.', durationSec: 720 },
+            { text: 'Sütü ekleyip kaynatın. Az soğuk sütle açtığınız nişasta, yumurta sarısı, vanilya ve şekeri ekleyip 8 dakika pişirin.', durationSec: 480 },
+            { text: 'Toprak güveçlere paylaştırıp yarılarına kadar soğuk su dolu tepside 220°C fırının üst rafında üzeri kızarana dek pişirin.', durationSec: 600, tip: 'Tepsiye konan soğuk su sütlacın kaynayıp taşmadan kaymak tutarak kızarmasını sağlar.' },
+            { text: 'Buzdolabında en az 3 saat soğutup kırılmış fındıkla servis edin.' }
+          ]
+        },
+        {
+          id: 21,
+          title: 'Karamelli Tepsi Trileçe',
+          category: 'Tatlı',
+          prepTime: 55,
+          difficulty: 'Orta',
+          baseServings: 12,
+          tag: 'Davet Sofrası',
+          imageUrl: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-amber-600 via-orange-700 to-stone-900',
+          ingredients: [
+            { name: 'Yumurta (oda sıcaklığında)', amount: 5, unit: 'adet' },
+            { name: 'Toz şeker', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Buğday unu', amount: 1.5, unit: 'su bardağı' },
+            { name: 'Süt (şerbet için)', amount: 4, unit: 'su bardağı' },
+            { name: 'Sıvı krema (şerbet ve karamel için)', amount: 2, unit: 'su bardağı' },
+            { name: 'Tereyağı (karamel için)', amount: 2, unit: 'yemek kaşığı' },
+            { name: 'Krem şanti (ince katman)', amount: 1, unit: 'paket' }
+          ],
+          steps: [
+            { text: 'Yumurta ve 1 su bardağı şekeri bembeyaz köpük olana dek 6 dakika çırpın; elenmiş un ve kabartma tozunu söndürmeden katlayıp büyük tepside 170°C’de pişirin.', durationSec: 1680 },
+            { text: 'Süt, 1 su bardağı sıvı krema ve 3 yemek kaşığı şekeri çırpıp ılıyan kekin üzerine kürdanla delikler açarak gezdirin.', tip: 'Süt şerbetini soğuk, keki ılıkken dökmek sünger gibi eşit ıslanmış bir doku verir.' },
+            { text: 'Kalan şekeri tavada kehribar rengi alana dek eritin, tereyağı ve 1 su bardağı kremayı dikkatlice ekleyip pürüzsüz karamel sos hazırlayın.', durationSec: 360 },
+            { text: 'İnce krem şanti tabakasının üzerine soğuyan karameli yayıp buzdolabında dinlendirdikten sonra 12 kare dilime kesin.' }
+          ]
+        },
+        {
+          id: 22,
+          title: 'Cevizli İncir Uyutması',
+          category: 'Tatlı',
+          prepTime: 20,
+          difficulty: 'Kolay',
+          baseServings: 4,
+          tag: 'Klasik',
+          imageUrl: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=900&q=80',
+          gradient: 'from-stone-700 via-amber-800 to-rose-950',
+          ingredients: [
+            { name: 'Yumuşak kuru incir', amount: 8, unit: 'adet' },
+            { name: 'Tam yağlı süt', amount: 3, unit: 'su bardağı' },
+            { name: 'İri kıyılmış ceviz içi', amount: 3, unit: 'yemek kaşığı' },
+            { name: 'Toz tarçın', amount: 0.5, unit: 'çay kaşığı' }
+          ],
+          steps: [
+            { text: 'Kuru incirleri ılık suda 10 dakika bekletip saplarını alın ve minik küpler halinde doğrayın.', durationSec: 600 },
+            { text: 'Sütü yoğurt mayalama sıcaklığına (parmağı yakmayacak kadar ılık, yaklaşık 45°C) getirin.', tip: 'Sütün aşırı sıcak olması incirin doğal enzimlerini bozar; ılık süt kıvamın sırrıdır.' },
+            { text: 'Ilık sütün bir kısmıyla incirleri el blenderından geçirip kalan sütle karıştırın ve kaselere paylaştırın.' },
+            { text: 'Üzerini temiz bir bezle örtüp 2 saat mayalayın, ardından buzdolabında soğutup ceviz ve tarçınla servis edin.' }
+          ]
+        }
+      ];
+
+      // ===================================================================
+      // 3. LOCAL STORAGE PERSISTENCE HELPERS (Safe for Sandboxed iFrames)
+      // ===================================================================
+      const STORAGE_KEY = 'cena_aksam_sofran_v2';
+
+      function loadPersisted() {
+        try {
+          const raw = window.localStorage.getItem(STORAGE_KEY);
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function savePersisted() {
+        try {
+          const payload = {
+            favorites: Array.from(state.favorites),
+            menuSelection: state.menuSelection,
+            partnerName: state.partnerName,
+            matches: state.matches,
+            sharedItems: state.sharedItems
+          };
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (_) {}
+      }
+
+      // ===================================================================
+      // 4. APPLICATION STATE
+      // ===================================================================
+      const persisted = loadPersisted();
+
+      const state = {
+        activeTab: 'explore', // explore | categories | together | saved
+
+        // Tab 1: Keşfet
+        exploreCategory: 'all', // 'all' | 'crowd' | category slug
+        exploreQuery: '',
+        heroRecipeId: 14, // Fırında Sebzeli Dana Kavurma (8 Kişilik)
+
+        // Tab 2: Kategoriler & Akşam Menünü Oluştur (Manual Selection Only)
+        menuSelection: (persisted && persisted.menuSelection) || {
+          corba: null,
+          baslangic: null,
+          ana: null,
+          salata: null,
+          tatli: null
+        },
+        pickerSlotKey: null,
+
+        // Tab 3: Birlikte (Friend Mode)
+        togetherSubTab: 'swipe', // swipe | matches | grocery
+        partnerName: (persisted && persisted.partnerName) || 'Zeynep',
+        roomSlug: 'cena.app/masa/4829',
+        togetherSelectedCats: new Set(),
+        togetherMaxTime: 'all', // 'all' | '25' | '45'
+        deck: [],
+        deckIndex: 0,
+        partnerLikes: new Set(),
+        swipeHistory: [],
+        rightSwipeCount: 0,
+        matches: (persisted && Array.isArray(persisted.matches)) ? persisted.matches : [],
+        cardFlipped: false,
+        pendingMatchId: null,
+        confettiRaf: null,
+
+        // Shared Grocery List (ONLY populated when user marks missing ingredients in Friend Mode)
+        // Item: { id, name, qtyText, recipeTitle, owner: 'me'|'partner', checked: boolean }
+        sharedItems: (persisted && Array.isArray(persisted.sharedItems)) ? persisted.sharedItems : [],
+
+        // Tab 4: Kaydedilenler
+        favorites: new Set((persisted && Array.isArray(persisted.favorites)) ? persisted.favorites : [1, 14, 21]),
+
+        // Full-Screen Recipe Detail Overlay
+        activeRecipeId: null,
+        isFriendMode: false,
+        servings: 4,
+        friendOwnedMap: {}, // { [recipeId]: Set<ingredientIndex> }
+
+        // Full-Screen Step-by-Step Cooking Mode
+        cookingStepIdx: 0,
+        wakeLockActive: false,
+        wakeLockObj: null,
+        timerInterval: null,
+        timerRunning: false,
+        timerTotal: 0,
+        timerLeft: 0
+      };
+
+      // ===================================================================
+      // 5. DOM REFERENCES
+      // ===================================================================
+      const $ = (id) => document.getElementById(id);
+      const dom = {
+        statusClock: $('status-clock'),
+        toastContainer: $('toast-container'),
+
+        // Main Tabs & Nav
+        tabExplore: $('tab-explore'),
+        tabCategories: $('tab-categories'),
+        tabTogether: $('tab-together'),
+        tabSaved: $('tab-saved'),
+        navBtns: document.querySelectorAll('.nav-btn'),
+        navTogetherBadge: $('nav-together-badge'),
+
+        // Tab 1: Keşfet
+        btnHeaderSaved: $('btn-header-saved'),
+        headerSavedCount: $('header-saved-count'),
+        exploreSearch: $('explore-search'),
+        btnClearSearch: $('btn-clear-search'),
+        exploreCategoryStrip: $('explore-category-strip'),
+        exploreHeroSection: $('explore-hero-section'),
+        exploreHeroCard: $('explore-hero-card'),
+        heroTagPill: $('hero-tag-pill'),
+        heroImg: $('hero-img'),
+        heroFallback: $('hero-fallback'),
+        heroCatBadge: $('hero-cat-badge'),
+        heroServingsBadge: $('hero-servings-badge'),
+        heroFavBtn: $('hero-fav-btn'),
+        heroTitle: $('hero-title'),
+        heroMeta: $('hero-meta'),
+        btnPromoBirlikte: $('btn-promo-birlikte'),
+        promoPartnerInitial: $('promo-partner-initial'),
+        exploreGridHeading: $('explore-grid-heading'),
+        exploreGridCount: $('explore-grid-count'),
+        exploreGrid: $('explore-grid'),
+        exploreEmpty: $('explore-empty'),
+        btnClearAllExplore: $('btn-clear-all-explore'),
+
+        // Tab 2: Kategoriler & Akşam Menüsü
+        categoriesGrid: $('categories-grid'),
+        btnClearMenu: $('btn-clear-menu'),
+        menuBuilderSlots: $('menu-builder-slots'),
+        menuSummaryCount: $('menu-summary-count'),
+        menuSummaryTime: $('menu-summary-time'),
+        modalMenuPicker: $('modal-menu-picker'),
+        menuPickerBackdrop: $('menu-picker-backdrop'),
+        btnCloseMenuPicker: $('btn-close-menu-picker'),
+        menuPickerTitle: $('menu-picker-title'),
+        menuPickerList: $('menu-picker-list'),
+
+        // Tab 3: Birlikte
+        roomPartnerAvatar: $('room-partner-avatar'),
+        inputPartnerName: $('input-partner-name'),
+        btnCopyInvite: $('btn-copy-invite'),
+        togetherSubBtns: document.querySelectorAll('.together-sub-btn'),
+        subtabMatchesBadge: $('subtab-matches-badge'),
+        subtabGroceryBadge: $('subtab-grocery-badge'),
+        panelSwipe: $('together-panel-swipe'),
+        panelMatches: $('together-panel-matches'),
+        panelGrocery: $('together-panel-grocery'),
+        timeFilterBtns: document.querySelectorAll('.time-filter-btn'),
+        togetherCatChips: $('together-cat-chips'),
+        swipeProgressText: $('swipe-progress-text'),
+        cardDeck: $('card-deck'),
+        deckEmpty: $('deck-empty'),
+        deckEmptySummary: $('deck-empty-summary'),
+        btnRestartDeck: $('btn-restart-deck'),
+        swipeControls: $('swipe-controls'),
+        btnSwipeUndo: $('btn-swipe-undo'),
+        btnSwipePass: $('btn-swipe-pass'),
+        btnSwipePeek: $('btn-swipe-peek'),
+        btnSwipeLike: $('btn-swipe-like'),
+        matchesListContainer: $('matches-list-container'),
+        sharedSummaryText: $('shared-summary-text'),
+        btnWhatsappCopy: $('btn-whatsapp-copy'),
+        sharedCountMe: $('shared-count-me'),
+        sharedLabelPartner: $('shared-label-partner'),
+        sharedCountPartner: $('shared-count-partner'),
+        sharedListContainer: $('shared-list-container'),
+        sharedListFooter: $('shared-list-footer'),
+        sharedCheckedCount: $('shared-checked-count'),
+        btnClearBought: $('btn-clear-bought'),
+
+        // Tab 4: Kaydedilenler
+        savedCountPill: $('saved-count-pill'),
+        savedGrid: $('saved-grid'),
+        savedEmpty: $('saved-empty'),
+        btnSavedExplore: $('btn-saved-explore'),
+
+        // Recipe Detail Overlay
+        overlayRecipe: $('overlay-recipe'),
+        recipeFriendBanner: $('recipe-friend-banner'),
+        recipeFriendText: $('recipe-friend-text'),
+        btnExitFriendMode: $('btn-exit-friend-mode'),
+        recipeScroll: $('recipe-scroll'),
+        recipeImg: $('recipe-img'),
+        recipeFallback: $('recipe-fallback'),
+        btnRecipeBack: $('btn-recipe-back'),
+        btnRecipeFav: $('btn-recipe-fav'),
+        recipeHeroBadges: $('recipe-hero-badges'),
+        recipeTitle: $('recipe-title'),
+        recipeStatsGrid: $('recipe-stats-grid'),
+        portionActiveLabel: $('portion-active-label'),
+        portionBtns: document.querySelectorAll('.portion-btn'),
+        recipeIngFriendHint: $('recipe-ing-friend-hint'),
+        recipeIngCount: $('recipe-ing-count'),
+        recipeIngredients: $('recipe-ingredients'),
+        recipeFriendExportBox: $('recipe-friend-export-box'),
+        friendOwnedCount: $('friend-owned-count'),
+        friendMissingCount: $('friend-missing-count'),
+        btnExportMissing: $('btn-export-missing'),
+        btnExportMissingLabel: $('btn-export-missing-label'),
+        recipeStepsCount: $('recipe-steps-count'),
+        recipeStepsList: $('recipe-steps-list'),
+        btnSwitchFriendMode: $('btn-switch-friend-mode'),
+        btnStartCooking: $('btn-start-cooking'),
+
+        // Cooking Mode Overlay & Afiyet Olsun Completion View
+        overlayCooking: $('overlay-cooking'),
+        cookingActiveView: $('cooking-active-view'),
+        cookingCompleteView: $('cooking-complete-view'),
+        btnCookingClose: $('btn-cooking-close'),
+        cookingTitle: $('cooking-title'),
+        cookingCounter: $('cooking-counter'),
+        btnWakeLock: $('btn-wake-lock'),
+        wakeLockText: $('wake-lock-text'),
+        cookingProgress: $('cooking-progress'),
+        cookingStepBadge: $('cooking-step-badge'),
+        cookingStepHeading: $('cooking-step-heading'),
+        cookingInstruction: $('cooking-instruction'),
+        cookingTimerBox: $('cooking-timer-box'),
+        timerStatus: $('timer-status'),
+        timerReadout: $('timer-readout'),
+        timerBar: $('timer-bar'),
+        btnTimerToggle: $('btn-timer-toggle'),
+        btnTimerReset: $('btn-timer-reset'),
+        cookingTipCard: $('cooking-tip-card'),
+        cookingTipText: $('cooking-tip-text'),
+        btnCookingPrev: $('btn-cooking-prev'),
+        btnCookingNext: $('btn-cooking-next'),
+        btnCookingNextLabel: $('btn-cooking-next-label'),
+        btnCookingNextIcon: $('btn-cooking-next-icon'),
+        completeDishImg: $('complete-dish-img'),
+        completeDishFb: $('complete-dish-fb'),
+        completeDishTitle: $('complete-dish-title'),
+        completeDishMeta: $('complete-dish-meta'),
+        btnCompleteToExplore: $('btn-complete-to-explore'),
+        btnCompleteToRecipe: $('btn-complete-to-recipe'),
+
+        // Match Modal
+        modalMatch: $('modal-match'),
+        confettiCanvas: $('confetti-canvas'),
+        matchPartnerAvatar: $('match-partner-avatar'),
+        matchSubtitle: $('match-subtitle'),
+        matchImg: $('match-img'),
+        matchFallback: $('match-fallback'),
+        matchCat: $('match-cat'),
+        matchTitle: $('match-title'),
+        matchMeta: $('match-meta'),
+        btnMatchOpen: $('btn-match-open'),
+        btnMatchContinue: $('btn-match-continue')
+      };
+
+      // ===================================================================
+      // 6. CORE HELPERS (TURKISH SCALING, FALLBACKS, TOAST, CLIPBOARD, AUDIO)
+      // ===================================================================
+      function refreshIcons() {
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+      }
+
+      function getRecipe(id) {
+        return RECIPES.find((r) => r.id === id);
+      }
+
+      function getCat(slug) {
+        return CATEGORY_MAP[slug] || { label: slug, icon: 'utensils', gradient: 'from-terracotta to-stone-900' };
+      }
+
+      function partnerDisplayName() {
+        const clean = (state.partnerName || '').trim();
+        return clean || 'Zeynep';
+      }
+
+      function partnerInitial() {
+        return partnerDisplayName().charAt(0).toUpperCase();
+      }
+
+      function trLower(str) {
+        return (str || '').toLocaleLowerCase('tr-TR');
+      }
+
+      /**
+       * Formats scaled ingredient amounts cleanly in Turkish (zero ugly repeating decimals).
+       * - Weight units (gr, ml): clean rounding (nearest 5 or 10) and kg conversion above 1000gr.
+       * - Cup/spoon/count units: nearest quarter/half with idiomatic "yarım" / "çeyrek" or "1,5".
+       */
+      function formatScaledAmount(ing, baseServings, targetServings) {
+        const raw = (ing.amount * targetServings) / baseServings;
+        const u = ing.unit;
+
+        if (u === 'gr') {
+          const rounded = raw >= 100 ? Math.round(raw / 10) * 10 : Math.max(5, Math.round(raw / 5) * 5);
+          if (rounded >= 1000 && rounded % 250 === 0) {
+            const kg = rounded / 1000;
+            return `${String(kg).replace('.', ',')} kg`;
+          }
+          return `${rounded} gr`;
+        }
+
+        // Quarter-step clean rounding for cups, spoons, adet, demet, dal, paket
+        const q = Math.max(0.25, Math.round(raw * 4) / 4);
+        if (Math.abs(q - 0.25) < 0.01) return `çeyrek ${u}`;
+        if (Math.abs(q - 0.5) < 0.01) return `yarım ${u}`;
+        if (Number.isInteger(q)) return `${q} ${u}`;
+
+        // Clean Turkish decimal comma (0,75 / 1,5 / 2,25 etc.)
+        const formatted = Number(q.toFixed(2)).toString().replace('.', ',');
+        return `${formatted} ${u}`;
+      }
+
+      function applyPhoto(imgEl, fallbackEl, item) {
+        fallbackEl.classList.add('hidden');
+        imgEl.classList.remove('hidden');
+        imgEl.alt = item.title || item.label || '';
+        imgEl.onerror = function () {
+          imgEl.classList.add('hidden');
+          const grad = item.gradient || 'from-terracotta via-amber-700 to-stone-900';
+          const iconName = item.icon || getCat(item.category).icon || 'utensils';
+          fallbackEl.className = `absolute inset-0 fallback-dots bg-gradient-to-br ${grad} flex items-center justify-center text-white/90`;
+          fallbackEl.innerHTML = `<i data-lucide="${iconName}" class="w-9 h-9"></i>`;
+          refreshIcons();
+        };
+        imgEl.src = item.imageUrl;
+      }
+
+      function showToast(message, variant = 'dark') {
+        const el = document.createElement('div');
+        const tone =
+          variant === 'success'
+            ? 'bg-olive text-white'
+            : variant === 'terracotta'
+            ? 'bg-terracotta text-white'
+            : 'bg-espresso text-white';
+        const icon = variant === 'success' ? 'check-circle-2' : variant === 'terracotta' ? 'bell-ring' : 'info';
+        el.className = `${tone} px-4 py-2.5 rounded-2xl shadow-lg text-xs font-bold flex items-center gap-2 max-w-[355px] animate-fade-up`;
+        el.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
+        dom.toastContainer.appendChild(el);
+        refreshIcons();
+        setTimeout(() => {
+          el.style.transition = 'opacity 0.24s ease, transform 0.24s ease';
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(-8px)';
+          setTimeout(() => el.remove(), 250);
+        }, 2500);
+      }
+
+      // iFrame-safe clipboard copy
+      function copyText(text, successMsg) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.top = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          ta.setSelectionRange(0, text.length);
+          const ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (ok) showToast(successMsg, 'success');
+          else showToast('Kopyalanamadı.', 'dark');
+        } catch (_) {
+          showToast('Kopyalama sırasında bir sorun oluştu.', 'dark');
+        }
+      }
+
+      // Pleasant Web Audio API chime for kitchen timer & celebration
+      function playGentleChime() {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            const t = ctx.currentTime + idx * 0.14;
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.exponentialRampToValueAtTime(0.16, t + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.58);
+          });
+        } catch (_) {}
+      }
+
+      // ===================================================================
+      // 7. TAB NAVIGATION & BADGE SYNCHRONIZATION
+      // ===================================================================
+      function switchTab(tab) {
+        state.activeTab = tab;
+        dom.tabExplore.classList.toggle('hidden', tab !== 'explore');
+        dom.tabCategories.classList.toggle('hidden', tab !== 'categories');
+        dom.tabTogether.classList.toggle('hidden', tab !== 'together');
+        dom.tabSaved.classList.toggle('hidden', tab !== 'saved');
+
+        dom.navBtns.forEach((btn) => {
+          const active = btn.dataset.tab === tab;
+          btn.className = active
+            ? 'nav-btn relative flex flex-col items-center justify-center py-1 rounded-2xl text-terracotta bg-terracotta/8 transition'
+            : 'nav-btn relative flex flex-col items-center justify-center py-1 rounded-2xl text-muted hover:text-espresso transition';
+        });
+
+        if (tab === 'explore') renderExplore();
+        if (tab === 'categories') renderCategoriesTab();
+        if (tab === 'together') renderTogetherTab();
+        if (tab === 'saved') renderSavedTab();
+        refreshIcons();
+      }
+
+      function switchTogetherSubTab(subTab) {
+        state.togetherSubTab = subTab;
+        dom.panelSwipe.classList.toggle('hidden', subTab !== 'swipe');
+        dom.panelMatches.classList.toggle('hidden', subTab !== 'matches');
+        dom.panelGrocery.classList.toggle('hidden', subTab !== 'grocery');
+
+        dom.togetherSubBtns.forEach((btn) => {
+          const active = btn.dataset.subtab === subTab;
+          btn.className = active
+            ? 'together-sub-btn py-2 px-2 rounded-xl text-[11px] font-extrabold bg-surface text-espresso shadow-sm transition flex items-center justify-center gap-1'
+            : 'together-sub-btn py-2 px-2 rounded-xl text-[11px] font-bold text-muted hover:text-espresso transition flex items-center justify-center gap-1';
+        });
+
+        if (subTab === 'swipe') renderSwipeDeck();
+        if (subTab === 'matches') renderMatchesList();
+        if (subTab === 'grocery') renderSharedList();
+        refreshIcons();
+      }
+
+      function updateBadges() {
+        const unbought = state.sharedItems.filter((x) => !x.checked).length;
+        const matchCount = state.matches.length;
+
+        dom.navTogetherBadge.textContent = String(unbought);
+        dom.navTogetherBadge.classList.toggle('hidden', unbought === 0);
+
+        dom.subtabMatchesBadge.textContent = String(matchCount);
+        dom.subtabMatchesBadge.classList.toggle('hidden', matchCount === 0);
+
+        dom.subtabGroceryBadge.textContent = String(unbought);
+        dom.subtabGroceryBadge.classList.toggle('hidden', unbought === 0);
+
+        dom.headerSavedCount.textContent = String(state.favorites.size);
+      }
+
+      // ===================================================================
+      // 8. TAB 1: KEŞFET (HOME)
+      // ===================================================================
+      function renderExplore() {
+        dom.promoPartnerInitial.textContent = partnerInitial();
+        dom.headerSavedCount.textContent = String(state.favorites.size);
+
+        // Category + Crowd Filter Pills
+        dom.exploreCategoryStrip.innerHTML = '';
+        const pills = [
+          { key: 'all', label: 'Tümü', icon: 'sparkles' },
+          { key: 'crowd', label: 'Kalabalık Sofralar (8-12 Kişi)', icon: 'users-round' },
+          ...CATEGORIES.map((c) => ({ key: c.slug, label: c.label, icon: c.icon }))
+        ];
+
+        pills.forEach((pill) => {
+          const active = state.exploreCategory === pill.key;
+          const isCrowd = pill.key === 'crowd';
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = active
+            ? `shrink-0 px-3.5 py-2 rounded-2xl ${isCrowd ? 'bg-olive text-white' : 'bg-espresso text-cream'} text-xs font-extrabold flex items-center gap-1.5 shadow-sm transition`
+            : `shrink-0 px-3.5 py-2 rounded-2xl ${isCrowd ? 'bg-olive/10 border border-olive/30 text-oliveDark' : 'bg-surface border border-espresso/10 text-espresso'} text-xs font-bold flex items-center gap-1.5 hover:border-terracotta/50 transition`;
+          btn.innerHTML = `<i data-lucide="${pill.icon}" class="w-3.5 h-3.5"></i><span>${pill.label}</span>`;
+          btn.addEventListener('click', () => {
+            state.exploreCategory = pill.key;
+            renderExplore();
+          });
+          dom.exploreCategoryStrip.appendChild(btn);
+        });
+
+        // Filter Recipes
+        let list = [...RECIPES];
+        if (state.exploreCategory === 'crowd') {
+          list = list.filter((r) => r.baseServings >= 8);
+        } else if (state.exploreCategory !== 'all') {
+          list = list.filter((r) => r.category === state.exploreCategory);
+        }
+
+        const q = trLower(state.exploreQuery.trim());
+        dom.btnClearSearch.classList.toggle('hidden', !q);
+        if (q) {
+          list = list.filter((r) => {
+            const hay = trLower(`${r.title} ${r.category} ${r.tag} ${r.ingredients.map((i) => i.name).join(' ')}`);
+            return hay.includes(q);
+          });
+        }
+
+        // Featured Hero Card
+        const showHero = state.exploreCategory === 'all' && !q && list.length > 0;
+        dom.exploreHeroSection.classList.toggle('hidden', !showHero);
+        if (showHero) {
+          const hero = list.find((r) => r.id === state.heroRecipeId) || list[0];
+          renderHeroCard(hero);
+        }
+
+        // Grid Title & Count
+        const heading =
+          state.exploreCategory === 'all'
+            ? q
+              ? 'Arama Sonuçları'
+              : 'Tüm Tarifler'
+            : state.exploreCategory === 'crowd'
+            ? 'Kalabalık Sofralar (8-12 Kişi)'
+            : state.exploreCategory;
+        dom.exploreGridHeading.textContent = heading;
+        dom.exploreGridCount.textContent = `${list.length} tarif`;
+
+        dom.exploreGrid.innerHTML = '';
+        dom.exploreEmpty.classList.toggle('hidden', list.length > 0);
+        list.forEach((recipe) => {
+          dom.exploreGrid.appendChild(createRecipeCard(recipe));
+        });
+
+        refreshIcons();
+      }
+
+      function renderHeroCard(recipe) {
+        const isFav = state.favorites.has(recipe.id);
+        dom.heroTagPill.textContent = recipe.tag;
+        applyPhoto(dom.heroImg, dom.heroFallback, recipe);
+        dom.heroCatBadge.textContent = recipe.category;
+        dom.heroServingsBadge.textContent = `${recipe.baseServings} Kişilik`;
+
+        dom.heroTitle.textContent = recipe.title;
+        dom.heroMeta.innerHTML = `
+          <span>${recipe.prepTime} dk</span>
+          <span>•</span>
+          <span>${recipe.difficulty}</span>
+          <span>•</span>
+          <span>${recipe.tag}</span>
+        `;
+
+        dom.heroFavBtn.innerHTML = `<i data-lucide="heart" class="w-4 h-4 ${isFav ? 'fill-terracotta text-terracotta' : ''}"></i>`;
+        dom.heroFavBtn.onclick = (e) => {
+          e.stopPropagation();
+          toggleFavorite(recipe.id);
+          renderExplore();
+        };
+
+        dom.exploreHeroCard.onclick = () => openRecipeDetail(recipe.id, false);
+      }
+
+      function createRecipeCard(recipe) {
+        const isFav = state.favorites.has(recipe.id);
+        const isCrowd = recipe.baseServings >= 8;
+
+        const card = document.createElement('article');
+        card.className =
+          'bg-surface rounded-[24px] overflow-hidden shadow-soft border border-espresso/8 cursor-pointer group active:scale-[0.98] transition flex flex-col';
+
+        card.innerHTML = `
+          <div class="relative h-36 bg-espresso overflow-hidden">
+            <img src="" alt="" class="card-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="card-fb hidden"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/80 via-transparent to-espresso/15"></div>
+
+            <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-surface/92 backdrop-blur-sm text-[9.5px] font-extrabold text-espresso">
+              ${recipe.category}
+            </span>
+
+            <button type="button" aria-label="Kaydet"
+                    class="fav-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-black/35 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/55 active:scale-90 transition">
+              <i data-lucide="heart" class="w-3.5 h-3.5 ${isFav ? 'fill-terracotta text-terracotta' : ''}"></i>
+            </button>
+
+            <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between gap-1">
+              <span class="px-2 py-0.5 rounded-full bg-black/55 backdrop-blur-sm text-[9.5px] font-bold text-white">
+                ${recipe.prepTime} dk
+              </span>
+              <span class="px-2 py-0.5 rounded-full ${isCrowd ? 'bg-olive text-white' : 'bg-black/55 text-white'} backdrop-blur-sm text-[9.5px] font-extrabold">
+                ${recipe.baseServings} Kişilik
+              </span>
+            </div>
+          </div>
+
+          <div class="p-3 flex-1 flex flex-col justify-between gap-2">
+            <h4 class="font-editorial text-[14.5px] font-bold text-espresso leading-snug line-clamp-2">${recipe.title}</h4>
+            <div class="flex items-center justify-between gap-1 text-[10px] font-bold">
+              <span class="px-2 py-0.5 rounded-lg ${isCrowd ? 'bg-olive/12 text-oliveDark' : 'bg-sand text-muted'} truncate">${recipe.tag}</span>
+              <span class="text-muted shrink-0">${recipe.difficulty}</span>
+            </div>
+          </div>
+        `;
+
+        applyPhoto(card.querySelector('.card-img'), card.querySelector('.card-fb'), recipe);
+
+        card.querySelector('.fav-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleFavorite(recipe.id);
+          if (state.activeTab === 'explore') renderExplore();
+          else if (state.activeTab === 'saved') renderSavedTab();
+        });
+
+        card.addEventListener('click', () => openRecipeDetail(recipe.id, false));
+        return card;
+      }
+
+      function toggleFavorite(id) {
+        if (state.favorites.has(id)) {
+          state.favorites.delete(id);
+          showToast('Kaydedilenlerden çıkarıldı.', 'dark');
+        } else {
+          state.favorites.add(id);
+          showToast('Tarif kaydedildi!', 'success');
+        }
+        savePersisted();
+        updateBadges();
+      }
+
+      // ===================================================================
+      // 9. TAB 2: KATEGORİLER & AKŞAM MENÜNÜ OLUŞTUR (MANUAL PICKER ONLY)
+      // ===================================================================
+      function renderCategoriesTab() {
+        // 6 Visual Category Cards
+        dom.categoriesGrid.innerHTML = '';
+        CATEGORIES.forEach((cat) => {
+          const count = RECIPES.filter((r) => r.category === cat.slug).length;
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = 'relative h-32 rounded-[24px] overflow-hidden bg-espresso shadow-soft text-left group active:scale-[0.98] transition';
+          card.innerHTML = `
+            <img src="" alt="" class="cat-img w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="cat-fb hidden"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/30 to-transparent"></div>
+            <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-surface/92 text-[10px] font-extrabold text-espresso">${count} tarif</span>
+            <div class="absolute bottom-3 left-3 right-3 text-white">
+              <p class="font-editorial text-base font-bold leading-tight">${cat.label}</p>
+              <p class="text-[10px] text-white/80 font-medium mt-0.5 truncate">${cat.desc}</p>
+            </div>
+          `;
+          applyPhoto(card.querySelector('.cat-img'), card.querySelector('.cat-fb'), cat);
+          card.addEventListener('click', () => {
+            state.exploreCategory = cat.slug;
+            state.exploreQuery = '';
+            dom.exploreSearch.value = '';
+            switchTab('explore');
+          });
+          dom.categoriesGrid.appendChild(card);
+        });
+
+        // 5-Course Evening Menu Slots (No auto-suggest button)
+        dom.menuBuilderSlots.innerHTML = '';
+        let selectedCount = 0;
+        let totalTime = 0;
+
+        MENU_SLOTS.forEach((slot) => {
+          const dishId = state.menuSelection[slot.key];
+          const dish = dishId ? getRecipe(dishId) : null;
+          if (dish) {
+            selectedCount += 1;
+            totalTime += dish.prepTime;
+          }
+
+          const row = document.createElement('div');
+          row.className = dish
+            ? 'rounded-2xl p-2.5 bg-cream border border-terracotta/25 flex items-center justify-between gap-2.5'
+            : 'rounded-2xl p-2.5 bg-cream/60 border border-dashed border-espresso/15 flex items-center justify-between gap-2.5';
+
+          if (dish) {
+            row.innerHTML = `
+              <button type="button" class="open-slot-dish flex items-center gap-2.5 min-w-0 flex-1 text-left">
+                <div class="w-11 h-11 rounded-xl overflow-hidden bg-espresso shrink-0 relative">
+                  <img src="" alt="" class="slot-img w-full h-full object-cover" />
+                  <div class="slot-fb hidden"></div>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-[10px] font-extrabold uppercase tracking-wider text-terracotta">${slot.label}</p>
+                  <p class="text-xs font-extrabold text-espresso truncate">${dish.title}</p>
+                  <p class="text-[10px] font-semibold text-muted">${dish.prepTime} dk • ${dish.baseServings} Kişilik</p>
+                </div>
+              </button>
+              <div class="flex items-center gap-1 shrink-0">
+                <button type="button" class="change-slot-btn px-2 py-1 rounded-lg bg-surface border border-espresso/10 text-[10px] font-bold text-espresso hover:border-terracotta">
+                  Değiştir
+                </button>
+                <button type="button" aria-label="Kaldır" class="clear-slot-btn w-7 h-7 rounded-lg bg-surface border border-espresso/10 text-muted hover:text-terracotta flex items-center justify-center">
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            `;
+            applyPhoto(row.querySelector('.slot-img'), row.querySelector('.slot-fb'), dish);
+            row.querySelector('.open-slot-dish').addEventListener('click', () => openRecipeDetail(dish.id, false));
+            row.querySelector('.change-slot-btn').addEventListener('click', () => openMenuPicker(slot));
+            row.querySelector('.clear-slot-btn').addEventListener('click', () => {
+              state.menuSelection[slot.key] = null;
+              savePersisted();
+              renderCategoriesTab();
+            });
+          } else {
+            row.innerHTML = `
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-9 h-9 rounded-xl bg-surface border border-espresso/8 text-terracotta flex items-center justify-center shrink-0">
+                  <i data-lucide="${slot.icon}" class="w-4 h-4"></i>
+                </span>
+                <div class="min-w-0">
+                  <p class="text-xs font-extrabold text-espresso">${slot.label}</p>
+                  <p class="text-[10.5px] text-muted">Tarif seçmek için dokun</p>
+                </div>
+              </div>
+              <button type="button" class="pick-slot-btn px-3 py-1.5 rounded-xl bg-surface border border-espresso/12 text-xs font-extrabold text-terracotta hover:bg-terracotta hover:text-white active:scale-95 transition shrink-0">
+                + Seç
+              </button>
+            `;
+            row.querySelector('.pick-slot-btn').addEventListener('click', () => openMenuPicker(slot));
+          }
+
+          dom.menuBuilderSlots.appendChild(row);
+        });
+
+        dom.btnClearMenu.classList.toggle('hidden', selectedCount === 0);
+        dom.btnClearMenu.classList.toggle('inline-flex', selectedCount > 0);
+        dom.menuSummaryCount.textContent = `${selectedCount} / 5 yemek seçildi`;
+        dom.menuSummaryTime.textContent = selectedCount > 0 ? `Toplam ~${totalTime} dk` : 'Henüz seçim yok';
+        refreshIcons();
+      }
+
+      function openMenuPicker(slot) {
+        state.pickerSlotKey = slot.key;
+        dom.menuPickerTitle.textContent = `${slot.label} Seç`;
+        dom.menuPickerList.innerHTML = '';
+
+        const candidates = RECIPES.filter((r) => slot.categories.includes(r.category));
+        candidates.forEach((dish) => {
+          const selected = state.menuSelection[slot.key] === dish.id;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = selected
+            ? 'w-full p-2.5 rounded-2xl bg-terracotta/10 border-2 border-terracotta flex items-center gap-3 text-left'
+            : 'w-full p-2.5 rounded-2xl bg-surface border border-espresso/10 hover:border-terracotta/50 flex items-center gap-3 text-left transition';
+          btn.innerHTML = `
+            <div class="w-14 h-14 rounded-xl overflow-hidden bg-espresso shrink-0 relative">
+              <img src="" alt="" class="p-img w-full h-full object-cover" />
+              <div class="p-fb hidden"></div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="font-editorial text-sm font-bold text-espresso truncate">${dish.title}</p>
+              <p class="text-[11px] font-semibold text-muted mt-0.5">${dish.prepTime} dk • ${dish.baseServings} Kişilik • ${dish.difficulty}</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold ${selected ? 'bg-terracotta text-white' : 'bg-sand text-espresso'}">
+              ${selected ? 'Seçili' : 'Seç'}
+            </span>
+          `;
+          applyPhoto(btn.querySelector('.p-img'), btn.querySelector('.p-fb'), dish);
+          btn.addEventListener('click', () => {
+            state.menuSelection[slot.key] = dish.id;
+            savePersisted();
+            dom.modalMenuPicker.classList.add('hidden');
+            renderCategoriesTab();
+            showToast(`${dish.title} menüne eklendi.`, 'success');
+          });
+          dom.menuPickerList.appendChild(btn);
+        });
+
+        dom.modalMenuPicker.classList.remove('hidden');
+        refreshIcons();
+      }
+
+      // ===================================================================
+      // 10. TAB 3: BİRLİKTE (SWIPE DECK + EŞLEŞMELER + ORTAK LİSTE)
+      // ===================================================================
+      function rebuildFilteredDeck() {
+        let pool = [...RECIPES];
+        if (state.togetherSelectedCats.size > 0) {
+          pool = pool.filter((r) => state.togetherSelectedCats.has(r.category));
+        }
+        if (state.togetherMaxTime !== 'all') {
+          const limit = Number(state.togetherMaxTime);
+          pool = pool.filter((r) => r.prepTime <= limit);
+        }
+
+        // Fisher-Yates shuffle
+        for (let i = pool.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+
+        state.deck = pool;
+        state.deckIndex = 0;
+        state.swipeHistory = [];
+        state.rightSwipeCount = 0;
+        state.cardFlipped = false;
+
+        // Pre-seed simulated friend likes (~55%)
+        state.partnerLikes = new Set();
+        state.deck.forEach((r, idx) => {
+          if (idx === 1 || idx === 3 || Math.random() < 0.5) {
+            state.partnerLikes.add(r.id);
+          }
+        });
+      }
+
+      function renderTogetherTab() {
+        dom.roomPartnerAvatar.textContent = partnerInitial();
+        dom.inputPartnerName.value = state.partnerName;
+
+        // Prep Time Filter Pills (Hepsi, 25 dk altı, 45 dk altı)
+        dom.timeFilterBtns.forEach((btn) => {
+          const active = btn.dataset.maxTime === state.togetherMaxTime;
+          btn.className = active
+            ? 'time-filter-btn px-2 py-1 rounded-lg text-[10px] font-extrabold bg-surface text-espresso shadow-sm transition'
+            : 'time-filter-btn px-2 py-1 rounded-lg text-[10px] font-bold text-muted hover:text-espresso transition';
+        });
+
+        // Multi-Select Category Chips
+        dom.togetherCatChips.innerHTML = '';
+        CATEGORIES.forEach((cat) => {
+          const active = state.togetherSelectedCats.has(cat.slug);
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = active
+            ? 'shrink-0 px-2.5 py-1.5 rounded-xl bg-olive text-white text-[11px] font-extrabold flex items-center gap-1 shadow-sm transition'
+            : 'shrink-0 px-2.5 py-1.5 rounded-xl bg-cream border border-espresso/10 text-espresso text-[11px] font-bold flex items-center gap-1 hover:border-olive/40 transition';
+          chip.innerHTML = `<i data-lucide="${cat.icon}" class="w-3 h-3"></i><span>${cat.label}</span>`;
+          chip.addEventListener('click', () => {
+            if (state.togetherSelectedCats.has(cat.slug)) state.togetherSelectedCats.delete(cat.slug);
+            else state.togetherSelectedCats.add(cat.slug);
+            rebuildFilteredDeck();
+            renderTogetherTab();
+          });
+          dom.togetherCatChips.appendChild(chip);
+        });
+
+        updateBadges();
+        switchTogetherSubTab(state.togetherSubTab);
+      }
+
+      function renderSwipeDeck() {
+        dom.cardDeck.innerHTML = '';
+        const remaining = state.deck.length - state.deckIndex;
+        dom.btnSwipeUndo.disabled = state.swipeHistory.length === 0;
+
+        if (state.deck.length === 0) {
+          dom.swipeProgressText.textContent = 'Filtreye uygun kart yok';
+          dom.deckEmpty.classList.remove('hidden');
+          dom.swipeControls.classList.add('hidden');
+          dom.deckEmptySummary.textContent = 'Seçili kategori ve süre filtresine uygun tarif bulunamadı. Filtreleri genişleterek devam edebilirsin.';
+          refreshIcons();
+          return;
+        }
+
+        if (remaining <= 0) {
+          dom.swipeProgressText.textContent = 'Deste sona erdi';
+          dom.deckEmpty.classList.remove('hidden');
+          dom.swipeControls.classList.add('hidden');
+          dom.deckEmptySummary.textContent =
+            state.matches.length > 0
+              ? `${partnerDisplayName()} ile ${state.matches.length} yemekte eşleştiniz! Eşleşmeler sekmesinden inceleyebilirsiniz.`
+              : 'Henüz eşleşme yakalanmadı. Desteyi yeniden başlatıp şansınızı deneyebilirsiniz.';
+          refreshIcons();
+          return;
+        }
+
+        dom.deckEmpty.classList.add('hidden');
+        dom.swipeControls.classList.remove('hidden');
+        dom.swipeProgressText.textContent = `Kart ${state.deckIndex + 1} / ${state.deck.length}`;
+
+        const stack = state.deck.slice(state.deckIndex, state.deckIndex + 2);
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const dish = stack[i];
+          const isTop = i === 0;
+          const el = buildSwipeCardElement(dish, isTop);
+          if (!isTop) {
+            el.style.transform = 'scale(0.95) translateY(10px)';
+            el.style.opacity = '0.78';
+            el.style.pointerEvents = 'none';
+          }
+          dom.cardDeck.appendChild(el);
+        }
+        refreshIcons();
+      }
+
+      function buildSwipeCardElement(dish, isTop) {
+        const card = document.createElement('div');
+        card.className = `absolute inset-0 rounded-[28px] overflow-hidden bg-espresso shadow-card border border-white/25 transition-transform duration-200 ${
+          isTop ? (state.cardFlipped ? 'swipe-card-flipped z-20' : 'swipe-card-active z-20') : 'z-10'
+        }`;
+
+        const ingPreview = dish.ingredients
+          .map(
+            (ing) => `
+            <li class="flex items-center justify-between py-1.5 border-b border-white/10 text-xs">
+              <span class="text-white/95 font-medium">${ing.name}</span>
+              <span class="text-amber-200 font-bold">${formatScaledAmount(ing, dish.baseServings, dish.baseServings)}</span>
+            </li>`
+          )
+          .join('');
+
+        card.innerHTML = `
+          <img src="" alt="" class="sw-img w-full h-full object-cover pointer-events-none" />
+          <div class="sw-fb hidden pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-espresso/95 via-espresso/25 to-espresso/20 pointer-events-none"></div>
+
+          <!-- Swipe Stamps -->
+          <div class="stamp-like opacity-0 pointer-events-none absolute top-7 left-5 px-3.5 py-1.5 rounded-xl border-4 border-olive bg-olive/85 backdrop-blur-sm -rotate-12">
+            <span class="text-sm font-extrabold tracking-widest text-white">YİYELİM!</span>
+          </div>
+          <div class="stamp-pass opacity-0 pointer-events-none absolute top-7 right-5 px-3.5 py-1.5 rounded-xl border-4 border-terracotta bg-terracotta/85 backdrop-blur-sm rotate-12">
+            <span class="text-sm font-extrabold tracking-widest text-white">GEÇ</span>
+          </div>
+
+          <!-- Top Badges -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
+            <span class="px-3 py-1 rounded-full bg-surface/95 text-espresso text-[11px] font-extrabold shadow-sm">
+              ${dish.category}
+            </span>
+            <span class="px-2.5 py-1 rounded-full ${dish.baseServings >= 8 ? 'bg-olive text-white' : 'bg-black/50 text-white'} backdrop-blur-sm text-[10px] font-bold">
+              ${dish.baseServings} Kişilik
+            </span>
+          </div>
+
+          <!-- Front Bottom Info (NO CALORIES) -->
+          <div class="card-front-info absolute bottom-4 left-4 right-4 text-white space-y-2 ${state.cardFlipped && isTop ? 'hidden' : ''}">
+            <div>
+              <h3 class="font-editorial text-[22px] font-bold leading-tight drop-shadow">${dish.title}</h3>
+              <div class="flex flex-wrap items-center gap-2 text-xs font-bold text-white/90 mt-1">
+                <span>${dish.prepTime} dk</span>
+                <span>•</span>
+                <span>${dish.difficulty}</span>
+                <span>•</span>
+                <span>${dish.tag}</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${dish.ingredients
+                .slice(0, 3)
+                .map((i) => `<span class="px-2.5 py-0.5 rounded-full bg-white/18 backdrop-blur-sm text-[10px] font-bold">${i.name}</span>`)
+                .join('')}
+            </div>
+          </div>
+
+          <!-- Quick Ingredient Preview Overlay -->
+          <div class="card-peek-panel ${state.cardFlipped && isTop ? '' : 'hidden'} absolute inset-0 bg-espresso/92 backdrop-blur-md p-5 flex flex-col justify-between text-white">
+            <div class="overflow-y-auto no-scrollbar space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">Malzemeler (${dish.baseServings} Kişilik)</span>
+                <button type="button" class="close-peek-btn w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <h4 class="font-editorial text-xl font-bold">${dish.title}</h4>
+              <ul>${ingPreview}</ul>
+            </div>
+            <button type="button" class="open-peek-recipe mt-3 w-full py-2.5 rounded-xl bg-terracotta text-white text-xs font-extrabold">
+              Tarifi Arkadaş Modunda Aç
+            </button>
+          </div>
+        `;
+
+        applyPhoto(card.querySelector('.sw-img'), card.querySelector('.sw-fb'), dish);
+
+        if (isTop) {
+          const closePeek = card.querySelector('.close-peek-btn');
+          if (closePeek) {
+            closePeek.addEventListener('click', (e) => {
+              e.stopPropagation();
+              state.cardFlipped = false;
+              renderSwipeDeck();
+            });
+          }
+          const openPeekBtn = card.querySelector('.open-peek-recipe');
+          if (openPeekBtn) {
+            openPeekBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              openRecipeDetail(dish.id, true);
+            });
+          }
+          if (!state.cardFlipped) {
+            attachSwipePhysics(card, dish);
+          }
+        }
+        return card;
+      }
+
+      // Clean Pointer Events drag physics (avoids duplicate window listeners)
+      function attachSwipePhysics(cardEl, dish) {
+        let dragging = false;
+        let pointerId = null;
+        let startX = 0;
+        let startY = 0;
+        let dx = 0;
+        let dy = 0;
+
+        const likeStamp = cardEl.querySelector('.stamp-like');
+        const passStamp = cardEl.querySelector('.stamp-pass');
+
+        cardEl.addEventListener('pointerdown', (e) => {
+          if (e.target.closest('button')) return;
+          dragging = true;
+          pointerId = e.pointerId;
+          startX = e.clientX;
+          startY = e.clientY;
+          dx = 0;
+          dy = 0;
+          cardEl.style.transition = 'none';
+          try { cardEl.setPointerCapture(pointerId); } catch (_) {}
+        });
+
+        cardEl.addEventListener('pointermove', (e) => {
+          if (!dragging || e.pointerId !== pointerId) return;
+          dx = e.clientX - startX;
+          dy = e.clientY - startY;
+          const rotate = dx * 0.06;
+          cardEl.style.transform = `translate3d(${dx}px, ${dy * 0.32}px, 0) rotate(${rotate}deg)`;
+          const ratio = Math.min(1, Math.abs(dx) / 92);
+          if (dx > 12) {
+            likeStamp.style.opacity = String(ratio);
+            passStamp.style.opacity = '0';
+          } else if (dx < -12) {
+            passStamp.style.opacity = String(ratio);
+            likeStamp.style.opacity = '0';
+          } else {
+            likeStamp.style.opacity = '0';
+            passStamp.style.opacity = '0';
+          }
+        });
+
+        function finishDrag(e) {
+          if (!dragging || (e && e.pointerId !== pointerId)) return;
+          dragging = false;
+          try { cardEl.releasePointerCapture(pointerId); } catch (_) {}
+          cardEl.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease';
+          if (dx > 90) {
+            flyCardOut(cardEl, 'right', dish);
+          } else if (dx < -90) {
+            flyCardOut(cardEl, 'left', dish);
+          } else {
+            cardEl.style.transform = 'translate3d(0,0,0) rotate(0deg)';
+            likeStamp.style.opacity = '0';
+            passStamp.style.opacity = '0';
+          }
+        }
+
+        cardEl.addEventListener('pointerup', finishDrag);
+        cardEl.addEventListener('pointercancel', finishDrag);
+      }
+
+      function triggerProgrammaticSwipe(direction) {
+        if (state.deckIndex >= state.deck.length) return;
+        const dish = state.deck[state.deckIndex];
+        const topCard = dom.cardDeck.lastElementChild;
+        if (!topCard) return;
+        if (state.cardFlipped) {
+          state.cardFlipped = false;
+          renderSwipeDeck();
+          setTimeout(() => triggerProgrammaticSwipe(direction), 30);
+          return;
+        }
+        topCard.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease';
+        const stamp = topCard.querySelector(direction === 'right' ? '.stamp-like' : '.stamp-pass');
+        if (stamp) stamp.style.opacity = '1';
+        flyCardOut(topCard, direction, dish);
+      }
+
+      function flyCardOut(cardEl, direction, dish) {
+        const targetX = direction === 'right' ? 460 : -460;
+        const rot = direction === 'right' ? 22 : -22;
+        cardEl.style.transform = `translate3d(${targetX}px, 24px, 0) rotate(${rot}deg)`;
+        cardEl.style.opacity = '0';
+
+        state.swipeHistory.push({ dishId: dish.id, direction });
+        state.deckIndex += 1;
+        state.cardFlipped = false;
+
+        let matched = false;
+        if (direction === 'right') {
+          state.rightSwipeCount += 1;
+          const forceFirstMatch = state.rightSwipeCount === 2 && state.matches.length === 0;
+          if ((state.partnerLikes.has(dish.id) || forceFirstMatch) && !state.matches.includes(dish.id)) {
+            state.matches.unshift(dish.id);
+            savePersisted();
+            matched = true;
+          }
+        }
+
+        setTimeout(() => {
+          updateBadges();
+          renderSwipeDeck();
+          if (matched) openMatchModal(dish);
+        }, 240);
+      }
+
+      function undoLastSwipe() {
+        if (state.swipeHistory.length === 0) return;
+        const last = state.swipeHistory.pop();
+        state.deckIndex = Math.max(0, state.deckIndex - 1);
+        state.cardFlipped = false;
+        if (last.direction === 'right') {
+          state.rightSwipeCount = Math.max(0, state.rightSwipeCount - 1);
+        }
+        renderSwipeDeck();
+        showToast('Son karar geri alındı.', 'dark');
+      }
+
+      // Celebratory Confetti Match Modal
+      function openMatchModal(dish) {
+        state.pendingMatchId = dish.id;
+        const pName = partnerDisplayName();
+        dom.matchPartnerAvatar.textContent = partnerInitial();
+        dom.matchSubtitle.textContent = `${pName} ile aynı yemekte buluştunuz!`;
+        applyPhoto(dom.matchImg, dom.matchFallback, dish);
+        dom.matchCat.textContent = dish.category;
+        dom.matchTitle.textContent = dish.title;
+        dom.matchMeta.innerHTML = `<span>${dish.prepTime} dk</span><span>•</span><span>${dish.baseServings} Kişilik</span><span>•</span><span>${dish.difficulty}</span>`;
+        dom.modalMatch.classList.remove('hidden');
+        refreshIcons();
+        startConfetti();
+      }
+
+      function closeMatchModal() {
+        dom.modalMatch.classList.add('hidden');
+        if (state.confettiRaf) cancelAnimationFrame(state.confettiRaf);
+      }
+
+      function startConfetti() {
+        const canvas = dom.confettiCanvas;
+        const ctx = canvas.getContext('2d');
+        const rect = dom.modalMatch.getBoundingClientRect();
+        canvas.width = rect.width || 400;
+        canvas.height = rect.height || 800;
+
+        const colors = ['#C85A32', '#5C6B4B', '#FAF6F0', '#F2B84B', '#E88A6B'];
+        const particles = Array.from({ length: 68 }, () => ({
+          x: Math.random() * canvas.width,
+          y: -20 - Math.random() * 180,
+          w: 6 + Math.random() * 6,
+          h: 8 + Math.random() * 8,
+          vx: (Math.random() - 0.5) * 3.2,
+          vy: 2.2 + Math.random() * 3.5,
+          rot: Math.random() * 360,
+          vrot: (Math.random() - 0.5) * 9,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        }));
+
+        let frames = 0;
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach((p) => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vrot;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rot * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+          });
+          frames += 1;
+          if (frames < 170) state.confettiRaf = requestAnimationFrame(draw);
+          else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        draw();
+      }
+
+      // SUB-TAB B: Eşleşmeler List
+      function renderMatchesList() {
+        const pName = partnerDisplayName();
+        dom.matchesListContainer.innerHTML = '';
+
+        if (state.matches.length === 0) {
+          dom.matchesListContainer.innerHTML = `
+            <div class="bg-surface rounded-3xl p-7 text-center border border-espresso/8 shadow-soft space-y-2.5">
+              <div class="w-12 h-12 rounded-2xl bg-terracotta/10 text-terracotta mx-auto flex items-center justify-center">
+                <i data-lucide="heart" class="w-6 h-6"></i>
+              </div>
+              <p class="text-sm font-extrabold text-espresso">Henüz eşleşme yok</p>
+              <p class="text-xs text-muted leading-relaxed">
+                <strong>Kartları Kaydır</strong> sekmesinde beğendiğin yemekleri sağa kaydırarak ${pName} ile ortak seçiminizi yakala.
+              </p>
+              <button type="button" id="btn-go-swipe-from-matches"
+                      class="mt-1 px-4 py-2.5 rounded-xl bg-terracotta text-white text-xs font-extrabold active:scale-95 transition">
+                Kartları Kaydırmaya Başla
+              </button>
+            </div>
+          `;
+          const goBtn = $('btn-go-swipe-from-matches');
+          if (goBtn) goBtn.addEventListener('click', () => switchTogetherSubTab('swipe'));
+          refreshIcons();
+          return;
+        }
+
+        state.matches.forEach((id) => {
+          const dish = getRecipe(id);
+          if (!dish) return;
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = 'w-full p-3 rounded-3xl bg-surface border border-espresso/8 shadow-soft hover:border-olive flex items-center gap-3 text-left active:scale-[0.99] transition';
+          card.innerHTML = `
+            <div class="w-16 h-16 rounded-2xl overflow-hidden bg-espresso shrink-0 relative">
+              <img src="" alt="" class="m-img w-full h-full object-cover" />
+              <div class="m-fb hidden"></div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <span class="text-[10px] font-extrabold text-terracotta uppercase tracking-wider">${dish.category}</span>
+              <p class="font-editorial text-base font-bold text-espresso truncate">${dish.title}</p>
+              <p class="text-[11px] font-semibold text-muted mt-0.5">${dish.prepTime} dk • ${dish.baseServings} Kişilik • ${dish.difficulty}</p>
+            </div>
+            <span class="px-2.5 py-1.5 rounded-xl bg-olive/12 text-oliveDark text-[10px] font-extrabold shrink-0">
+              Aç →
+            </span>
+          `;
+          applyPhoto(card.querySelector('.m-img'), card.querySelector('.m-fb'), dish);
+          card.addEventListener('click', () => openRecipeDetail(dish.id, true));
+          dom.matchesListContainer.appendChild(card);
+        });
+        refreshIcons();
+      }
+
+      // SUB-TAB C: Ortak Liste (Populated ONLY from Friend Mode Missing Ingredients)
+      function renderSharedList() {
+        const pName = partnerDisplayName();
+        const activeItems = state.sharedItems.filter((i) => !i.checked);
+        const meCount = activeItems.filter((i) => i.owner === 'me').length;
+        const partnerCount = activeItems.filter((i) => i.owner === 'partner').length;
+        const boughtCount = state.sharedItems.filter((i) => i.checked).length;
+
+        dom.sharedSummaryText.textContent = `Ben: ${meCount} • ${pName}: ${partnerCount}`;
+        dom.sharedCountMe.textContent = String(meCount);
+        dom.sharedCountPartner.textContent = String(partnerCount);
+        dom.sharedLabelPartner.textContent = `${pName} Alır`;
+
+        dom.sharedListContainer.innerHTML = '';
+
+        if (state.sharedItems.length === 0) {
+          dom.sharedListFooter.classList.add('hidden');
+          dom.sharedListContainer.innerHTML = `
+            <div class="bg-surface rounded-3xl p-7 text-center border border-espresso/8 shadow-soft space-y-2.5">
+              <div class="w-12 h-12 rounded-2xl bg-olive/12 text-olive mx-auto flex items-center justify-center">
+                <i data-lucide="shopping-basket" class="w-6 h-6"></i>
+              </div>
+              <p class="text-sm font-extrabold text-espresso">Ortak liste henüz boş</p>
+              <p class="text-xs text-muted leading-relaxed">
+                Bir tarifi <strong>Arkadaş Modunda</strong> açıp eksik malzemeleri seçtiğinde buraya düşer ve ${pName} ile kimin ne alacağını bölüşebilirsin.
+              </p>
+            </div>
+          `;
+          refreshIcons();
+          return;
+        }
+
+        // Group items by recipe title
+        const byRecipe = {};
+        state.sharedItems.forEach((item) => {
+          const key = item.recipeTitle || 'Ortak Masa';
+          if (!byRecipe[key]) byRecipe[key] = [];
+          byRecipe[key].push(item);
+        });
+
+        Object.entries(byRecipe).forEach(([recipeTitle, items]) => {
+          const card = document.createElement('div');
+          card.className = 'bg-surface rounded-3xl p-3.5 shadow-soft border border-espresso/8 space-y-2';
+          card.innerHTML = `
+            <div class="flex items-center justify-between pb-1.5 border-b border-espresso/8">
+              <span class="font-editorial text-sm font-bold text-espresso truncate">${recipeTitle}</span>
+              <span class="text-[10px] font-bold text-olive shrink-0">${items.length} malzeme</span>
+            </div>
+            <div class="group-rows divide-y divide-espresso/6"></div>
+          `;
+
+          const rowsWrap = card.querySelector('.group-rows');
+          items.forEach((item) => {
+            const isMe = item.owner === 'me';
+            const row = document.createElement('div');
+            row.className = 'py-2.5 flex items-center justify-between gap-2';
+            row.innerHTML = `
+              <button type="button" class="toggle-bought flex items-center gap-2.5 min-w-0 flex-1 text-left">
+                <span class="w-5 h-5 rounded-md flex items-center justify-center shrink-0 border ${
+                  item.checked ? 'bg-olive border-olive text-white' : 'border-espresso/25 bg-cream'
+                }">
+                  ${item.checked ? '<i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>' : ''}
+                </span>
+                <div class="min-w-0">
+                  <p class="text-xs font-bold truncate ${item.checked ? 'line-through text-muted' : 'text-espresso'}">
+                    ${item.name}
+                  </p>
+                  ${item.qtyText ? `<p class="text-[10.5px] font-semibold text-muted">${item.qtyText}</p>` : ''}
+                </div>
+              </button>
+
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" class="toggle-owner px-2.5 py-1 rounded-xl text-[10px] font-extrabold active:scale-95 transition ${
+                  isMe
+                    ? 'bg-terracotta/12 text-terracotta border border-terracotta/25'
+                    : 'bg-olive/12 text-oliveDark border border-olive/25'
+                }">
+                  ${isMe ? 'Ben Alırım' : `${pName} Alır`}
+                </button>
+                <button type="button" aria-label="Sil" class="remove-item w-7 h-7 rounded-xl bg-cream text-muted hover:text-terracotta flex items-center justify-center transition">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            `;
+
+            row.querySelector('.toggle-bought').addEventListener('click', () => {
+              item.checked = !item.checked;
+              savePersisted();
+              updateBadges();
+              renderSharedList();
+            });
+            row.querySelector('.toggle-owner').addEventListener('click', () => {
+              item.owner = item.owner === 'me' ? 'partner' : 'me';
+              savePersisted();
+              renderSharedList();
+            });
+            row.querySelector('.remove-item').addEventListener('click', () => {
+              state.sharedItems = state.sharedItems.filter((x) => x.id !== item.id);
+              savePersisted();
+              updateBadges();
+              renderSharedList();
+            });
+            rowsWrap.appendChild(row);
+          });
+
+          dom.sharedListContainer.appendChild(card);
+        });
+
+        dom.sharedListFooter.classList.toggle('hidden', boughtCount === 0);
+        dom.sharedCheckedCount.textContent = `${boughtCount} malzeme alındı`;
+        refreshIcons();
+      }
+
+      function copySharedListForWhatsapp() {
+        const pName = partnerDisplayName();
+        const pending = state.sharedItems.filter((i) => !i.checked);
+        if (pending.length === 0) {
+          showToast('Kopyalanacak eksik malzeme yok.', 'dark');
+          return;
+        }
+        const mine = pending.filter((i) => i.owner === 'me');
+        const theirs = pending.filter((i) => i.owner === 'partner');
+        const lines = [`Cena — Ortak Alışveriş Listesi (${state.roomSlug})`, ''];
+        if (mine.length) {
+          lines.push('*Ben Alırım:*');
+          mine.forEach((i) => lines.push(`- ${i.name}${i.qtyText ? ` (${i.qtyText})` : ''}`));
+          lines.push('');
+        }
+        if (theirs.length) {
+          lines.push(`*${pName} Alır:*`);
+          theirs.forEach((i) => lines.push(`- ${i.name}${i.qtyText ? ` (${i.qtyText})` : ''}`));
+        }
+        copyText(lines.join('\n'), 'Ortak liste WhatsApp için kopyalandı!');
+      }
+
+      // ===================================================================
+      // 11. TAB 4: KAYDEDİLENLER (SAVED RECIPES)
+      // ===================================================================
+      function renderSavedTab() {
+        const saved = RECIPES.filter((r) => state.favorites.has(r.id));
+        dom.savedCountPill.textContent = `${saved.length} tarif`;
+        dom.savedGrid.innerHTML = '';
+        dom.savedEmpty.classList.toggle('hidden', saved.length > 0);
+        saved.forEach((recipe) => {
+          dom.savedGrid.appendChild(createRecipeCard(recipe));
+        });
+        refreshIcons();
+      }
+
+      // ===================================================================
+      // 12. FULL-SCREEN RECIPE DETAIL (SOLO MODE vs FRIEND MODE)
+      // ===================================================================
+      function openRecipeDetail(recipeId, friendMode = false) {
+        const recipe = getRecipe(recipeId);
+        if (!recipe) return;
+
+        state.activeRecipeId = recipeId;
+        state.isFriendMode = Boolean(friendMode);
+        state.servings = recipe.baseServings; // Defaults to recipe's natural base serving (2, 4, 6, 8, 10, or 12)
+        if (!state.friendOwnedMap[recipeId]) {
+          state.friendOwnedMap[recipeId] = new Set();
+        }
+
+        renderRecipeDetail();
+        dom.recipeScroll.scrollTop = 0;
+        dom.overlayRecipe.classList.remove('hidden');
+        refreshIcons();
+      }
+
+      function renderRecipeDetail() {
+        const recipe = getRecipe(state.activeRecipeId);
+        if (!recipe) return;
+
+        const isFav = state.favorites.has(recipe.id);
+        const isFriend = state.isFriendMode;
+        const pName = partnerDisplayName();
+
+        // Solo vs Friend Mode Visibility
+        dom.recipeFriendBanner.classList.toggle('hidden', !isFriend);
+        dom.recipeFriendText.textContent = `${pName} ile`;
+        dom.recipeIngFriendHint.classList.toggle('hidden', !isFriend);
+        dom.recipeFriendExportBox.classList.toggle('hidden', !isFriend);
+        dom.btnSwitchFriendMode.classList.toggle('hidden', isFriend);
+
+        // Hero Image & Title
+        applyPhoto(dom.recipeImg, dom.recipeFallback, recipe);
+        dom.recipeTitle.textContent = recipe.title;
+        dom.btnRecipeFav.innerHTML = `<i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-terracotta text-terracotta' : ''}"></i>`;
+        dom.recipeHeroBadges.innerHTML = `
+          <span class="px-2.5 py-0.5 rounded-full bg-surface/95 text-espresso text-[10px] font-extrabold">${recipe.category}</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-olive/92 text-white text-[10px] font-extrabold">${recipe.tag}</span>
+        `;
+
+        // 3 Clean Meta Tiles (NO CALORIES)
+        dom.recipeStatsGrid.innerHTML = `
+          <div class="bg-surface rounded-2xl p-2.5 border border-espresso/8 text-center shadow-soft">
+            <p class="text-[10px] font-bold text-muted">Hazırlık Süresi</p>
+            <p class="text-xs font-extrabold text-espresso mt-0.5">${recipe.prepTime} dk</p>
+          </div>
+          <div class="bg-surface rounded-2xl p-2.5 border border-espresso/8 text-center shadow-soft">
+            <p class="text-[10px] font-bold text-muted">Zorluk</p>
+            <p class="text-xs font-extrabold text-espresso mt-0.5">${recipe.difficulty}</p>
+          </div>
+          <div class="bg-surface rounded-2xl p-2.5 border border-espresso/8 text-center shadow-soft">
+            <p class="text-[10px] font-bold text-muted">Seçili Porsiyon</p>
+            <p class="text-xs font-extrabold text-terracotta mt-0.5">${state.servings} Kişilik</p>
+          </div>
+        `;
+
+        // 6-Size Portion Selector (2, 4, 6, 8, 10, 12 Kişilik)
+        dom.portionActiveLabel.textContent = `${state.servings} Kişilik`;
+        dom.portionBtns.forEach((btn) => {
+          const val = Number(btn.dataset.servings);
+          const active = val === state.servings;
+          btn.className = active
+            ? 'portion-btn py-2 rounded-xl text-xs font-extrabold bg-terracotta text-white shadow-sm transition'
+            : 'portion-btn py-2 rounded-xl text-xs font-bold text-muted hover:text-espresso transition';
+        });
+
+        // Ingredients List
+        const ownedSet = state.friendOwnedMap[recipe.id];
+        dom.recipeIngCount.textContent = `${recipe.ingredients.length} malzeme`;
+        dom.recipeIngredients.innerHTML = '';
+
+        recipe.ingredients.forEach((ing, idx) => {
+          const amountText = formatScaledAmount(ing, recipe.baseServings, state.servings);
+          const li = document.createElement('li');
+
+          if (!isFriend) {
+            // SOLO MODE: Pure, uncluttered recipe view (NO checkboxes, NO shopping buttons)
+            li.className = 'py-2.5 flex items-center justify-between gap-3 text-sm';
+            li.innerHTML = `
+              <span class="font-medium text-espresso">${ing.name}</span>
+              <span class="font-extrabold text-terracotta shrink-0">${amountText}</span>
+            `;
+          } else {
+            // FRIEND MODE: Tapping toggles Evde Var vs Eksik
+            const isOwned = ownedSet.has(idx);
+            li.className = 'py-2.5';
+            li.innerHTML = `
+              <button type="button" class="toggle-ing-status w-full flex items-center justify-between gap-3 text-left">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <span class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold shrink-0 border transition ${
+                    isOwned
+                      ? 'bg-olive text-white border-olive'
+                      : 'bg-terracotta/12 text-terracotta border-terracotta/25'
+                  }">
+                    ${isOwned ? 'Evde Var' : 'Eksik'}
+                  </span>
+                  <span class="text-xs font-bold truncate ${isOwned ? 'line-through text-muted' : 'text-espresso'}">${ing.name}</span>
+                </div>
+                <span class="text-xs font-extrabold shrink-0 ${isOwned ? 'text-muted' : 'text-terracotta'}">${amountText}</span>
+              </button>
+            `;
+            li.querySelector('.toggle-ing-status').addEventListener('click', () => {
+              if (ownedSet.has(idx)) ownedSet.delete(idx);
+              else ownedSet.add(idx);
+              renderRecipeDetail();
+            });
+          }
+
+          dom.recipeIngredients.appendChild(li);
+        });
+
+        // Friend Mode Export Summary
+        if (isFriend) {
+          const ownedCount = ownedSet.size;
+          const missingCount = recipe.ingredients.length - ownedCount;
+          dom.friendOwnedCount.textContent = `${ownedCount} evde var`;
+          dom.friendMissingCount.textContent = `${missingCount} eksik`;
+          dom.btnExportMissing.disabled = missingCount === 0;
+          dom.btnExportMissingLabel.textContent =
+            missingCount > 0 ? `Eksikleri Ortak Listeye Aktar (${missingCount})` : 'Tüm Malzemeler Evde Var';
+        }
+
+        // Preparation Steps Overview
+        dom.recipeStepsCount.textContent = `${recipe.steps.length} adım`;
+        dom.recipeStepsList.innerHTML = '';
+        recipe.steps.forEach((step, idx) => {
+          const li = document.createElement('li');
+          li.className = 'flex items-start gap-3 text-xs leading-relaxed text-espresso/90';
+          li.innerHTML = `
+            <span class="w-6 h-6 rounded-xl bg-sand text-terracotta font-extrabold text-[11px] flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+            <p class="flex-1 font-medium">${step.text}</p>
+          `;
+          dom.recipeStepsList.appendChild(li);
+        });
+
+        refreshIcons();
+      }
+
+      function exportMissingIngredientsToSharedList() {
+        const recipe = getRecipe(state.activeRecipeId);
+        if (!recipe) return;
+
+        const ownedSet = state.friendOwnedMap[recipe.id] || new Set();
+        let added = 0;
+
+        recipe.ingredients.forEach((ing, idx) => {
+          if (ownedSet.has(idx)) return;
+          const qtyText = formatScaledAmount(ing, recipe.baseServings, state.servings);
+          const exists = state.sharedItems.some(
+            (item) => trLower(item.name) === trLower(ing.name) && item.recipeTitle === recipe.title
+          );
+          if (!exists) {
+            state.sharedItems.push({
+              id: `shared_${recipe.id}_${idx}_${Date.now()}`,
+              name: ing.name,
+              qtyText,
+              recipeTitle: recipe.title,
+              owner: added % 2 === 0 ? 'me' : 'partner',
+              checked: false
+            });
+            added += 1;
+          }
+        });
+
+        savePersisted();
+        updateBadges();
+        dom.overlayRecipe.classList.add('hidden');
+        state.togetherSubTab = 'grocery';
+        switchTab('together');
+        showToast(
+          added > 0 ? `${added} eksik malzeme Ortak Listeye aktarıldı!` : 'Eksik malzemeler zaten Ortak Listede.',
+          'success'
+        );
+      }
+
+      // ===================================================================
+      // 13. STEP-BY-STEP GUIDED COOKING MODE & "AFİYET OLSUN!" COMPLETION
+      // ===================================================================
+      function openCookingMode() {
+        const recipe = getRecipe(state.activeRecipeId);
+        if (!recipe) return;
+        state.cookingStepIdx = 0;
+        dom.cookingTitle.textContent = recipe.title;
+        dom.cookingActiveView.classList.remove('hidden');
+        dom.cookingCompleteView.classList.add('hidden');
+        dom.overlayCooking.classList.remove('hidden');
+        renderCookingStep();
+        refreshIcons();
+      }
+
+      function closeCookingMode() {
+        stopTimer();
+        if (state.wakeLockObj) {
+          try { state.wakeLockObj.release(); } catch (_) {}
+          state.wakeLockObj = null;
+        }
+        state.wakeLockActive = false;
+        updateWakeLockUI();
+        dom.overlayCooking.classList.add('hidden');
+      }
+
+      function openAfiyetOlsunView() {
+        const recipe = getRecipe(state.activeRecipeId);
+        if (!recipe) return;
+        stopTimer();
+        playGentleChime();
+
+        applyPhoto(dom.completeDishImg, dom.completeDishFb, recipe);
+        dom.completeDishTitle.textContent = recipe.title;
+        dom.completeDishMeta.textContent = `${state.servings} Kişilik • ${recipe.category}`;
+
+        dom.cookingActiveView.classList.add('hidden');
+        dom.cookingCompleteView.classList.remove('hidden');
+        refreshIcons();
+      }
+
+      function renderCookingStep() {
+        const recipe = getRecipe(state.activeRecipeId);
+        if (!recipe) return;
+
+        const steps = recipe.steps;
+        const idx = state.cookingStepIdx;
+        const step = steps[idx];
+        const isLast = idx === steps.length - 1;
+
+        dom.cookingCounter.textContent = `Adım ${idx + 1} / ${steps.length}`;
+        dom.cookingStepBadge.textContent = String(idx + 1);
+        dom.cookingStepHeading.textContent =
+          idx === 0 ? 'Hazırlık' : isLast ? 'Son Dokunuş & Servis' : 'Pişirme Aşaması';
+        dom.cookingInstruction.textContent = step.text;
+
+        // Segmented Progress Bar
+        dom.cookingProgress.innerHTML = '';
+        steps.forEach((_, i) => {
+          const seg = document.createElement('div');
+          seg.className = `h-1.5 flex-1 rounded-full transition-all ${
+            i < idx ? 'bg-olive' : i === idx ? 'bg-terracotta' : 'bg-white/15'
+          }`;
+          dom.cookingProgress.appendChild(seg);
+        });
+
+        // Optional Şefin İpucu Card
+        if (step.tip) {
+          dom.cookingTipCard.classList.remove('hidden');
+          dom.cookingTipText.textContent = step.tip;
+        } else {
+          dom.cookingTipCard.classList.add('hidden');
+        }
+
+        // Interactive Kitchen Timer
+        stopTimer();
+        if (step.durationSec && step.durationSec > 0) {
+          dom.cookingTimerBox.classList.remove('hidden');
+          state.timerTotal = step.durationSec;
+          state.timerLeft = step.durationSec;
+          updateTimerUI();
+        } else {
+          dom.cookingTimerBox.classList.add('hidden');
+        }
+
+        // Final step button MUST say "Afiyet Olsun!"
+        dom.btnCookingPrev.disabled = idx === 0;
+        dom.btnCookingNextLabel.textContent = isLast ? 'Afiyet Olsun!' : 'Sonraki Adım';
+        dom.btnCookingNext.className = isLast
+          ? 'py-3.5 px-4 rounded-2xl bg-olive hover:bg-oliveDark text-white font-extrabold text-sm flex items-center justify-center gap-1.5 shadow-lg shadow-olive/35 active:scale-95 transition'
+          : 'py-3.5 px-4 rounded-2xl bg-terracotta hover:bg-terracottaDark text-white font-extrabold text-sm flex items-center justify-center gap-1.5 shadow-lg shadow-terracotta/30 active:scale-95 transition';
+        dom.btnCookingNextIcon.setAttribute('data-lucide', isLast ? 'sparkles' : 'chevron-right');
+        refreshIcons();
+      }
+
+      function formatClock(sec) {
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      }
+
+      function updateTimerUI() {
+        dom.timerReadout.textContent = formatClock(state.timerLeft);
+        const pct = state.timerTotal > 0 ? Math.max(0, (state.timerLeft / state.timerTotal) * 100) : 0;
+        dom.timerBar.style.width = `${pct}%`;
+
+        if (state.timerLeft === 0) {
+          dom.timerStatus.textContent = 'Süre doldu!';
+          dom.timerStatus.className = 'text-xs font-extrabold text-emerald-300';
+          dom.btnTimerToggle.innerHTML = '<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i><span>Tekrar</span>';
+        } else if (state.timerRunning) {
+          dom.timerStatus.textContent = 'Geri sayım aktif...';
+          dom.timerStatus.className = 'text-xs font-bold text-[#E88A65]';
+          dom.btnTimerToggle.innerHTML = '<i data-lucide="pause" class="w-3.5 h-3.5"></i><span>Duraklat</span>';
+        } else {
+          dom.timerStatus.textContent = state.timerLeft < state.timerTotal ? 'Duraklatıldı' : 'Başlatmaya hazır';
+          dom.timerStatus.className = 'text-xs font-bold text-cream/65';
+          dom.btnTimerToggle.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i><span>Başlat</span>';
+        }
+        refreshIcons();
+      }
+
+      function toggleTimer() {
+        if (state.timerLeft === 0) {
+          state.timerLeft = state.timerTotal;
+          updateTimerUI();
+          return;
+        }
+        if (state.timerRunning) {
+          stopTimer();
+          updateTimerUI();
+          return;
+        }
+        state.timerRunning = true;
+        updateTimerUI();
+        state.timerInterval = setInterval(() => {
+          if (state.timerLeft > 0) {
+            state.timerLeft -= 1;
+            updateTimerUI();
+            if (state.timerLeft === 0) {
+              stopTimer();
+              updateTimerUI();
+              playGentleChime();
+              showToast('Mutfak zamanlayıcısı bitti!', 'terracotta');
+            }
+          }
+        }, 1000);
+      }
+
+      function stopTimer() {
+        state.timerRunning = false;
+        if (state.timerInterval) {
+          clearInterval(state.timerInterval);
+          state.timerInterval = null;
+        }
+      }
+
+      async function toggleWakeLock() {
+        state.wakeLockActive = !state.wakeLockActive;
+        if (state.wakeLockActive && 'wakeLock' in navigator) {
+          try {
+            state.wakeLockObj = await navigator.wakeLock.request('screen');
+          } catch (_) {}
+        } else if (!state.wakeLockActive && state.wakeLockObj) {
+          try { await state.wakeLockObj.release(); } catch (_) {}
+          state.wakeLockObj = null;
+        }
+        updateWakeLockUI();
+        showToast(state.wakeLockActive ? 'Ekran pişirme boyunca açık tutulacak.' : 'Ekran kilidi normale döndü.', 'dark');
+      }
+
+      function updateWakeLockUI() {
+        dom.btnWakeLock.className = state.wakeLockActive
+          ? 'inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-olive text-white text-[10px] font-extrabold transition shrink-0'
+          : 'inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 border border-white/15 text-[10px] font-extrabold text-cream/85 transition shrink-0';
+        dom.wakeLockText.textContent = state.wakeLockActive ? 'Ekran Açık' : 'Ekranı Açık Tut';
+      }
+
+      // ===================================================================
+      // 14. EVENT LISTENERS & INITIALIZATION
+      // ===================================================================
+      function bindEvents() {
+        // Bottom 4-Tab Nav
+        dom.navBtns.forEach((btn) => {
+          btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+
+        // Tab 1: Keşfet
+        dom.btnHeaderSaved.addEventListener('click', () => switchTab('saved'));
+        dom.exploreSearch.addEventListener('input', (e) => {
+          state.exploreQuery = e.target.value;
+          renderExplore();
+        });
+        dom.btnClearSearch.addEventListener('click', () => {
+          state.exploreQuery = '';
+          dom.exploreSearch.value = '';
+          renderExplore();
+        });
+        dom.btnClearAllExplore.addEventListener('click', () => {
+          state.exploreCategory = 'all';
+          state.exploreQuery = '';
+          dom.exploreSearch.value = '';
+          renderExplore();
+        });
+        dom.btnPromoBirlikte.addEventListener('click', () => {
+          state.togetherSubTab = 'swipe';
+          switchTab('together');
+        });
+
+        // Tab 2: Kategoriler & Manual Evening Menu Builder
+        dom.btnClearMenu.addEventListener('click', () => {
+          state.menuSelection = { corba: null, baslangic: null, ana: null, salata: null, tatli: null };
+          savePersisted();
+          renderCategoriesTab();
+          showToast('Akşam menüsü temizlendi.', 'dark');
+        });
+        dom.btnCloseMenuPicker.addEventListener('click', () => dom.modalMenuPicker.classList.add('hidden'));
+        dom.menuPickerBackdrop.addEventListener('click', () => dom.modalMenuPicker.classList.add('hidden'));
+
+        // Tab 3: Birlikte Sub-Nav & Room Controls
+        dom.togetherSubBtns.forEach((btn) => {
+          btn.addEventListener('click', () => switchTogetherSubTab(btn.dataset.subtab));
+        });
+
+        dom.inputPartnerName.addEventListener('input', (e) => {
+          state.partnerName = e.target.value;
+          savePersisted();
+          dom.roomPartnerAvatar.textContent = partnerInitial();
+          dom.promoPartnerInitial.textContent = partnerInitial();
+          if (state.togetherSubTab === 'grocery') renderSharedList();
+        });
+
+        dom.btnCopyInvite.addEventListener('click', () => {
+          copyText(`https://${state.roomSlug}`, `Davet bağlantısı kopyalandı: ${state.roomSlug}`);
+        });
+
+        dom.timeFilterBtns.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.togetherMaxTime = btn.dataset.maxTime;
+            rebuildFilteredDeck();
+            renderTogetherTab();
+          });
+        });
+
+        dom.btnSwipeUndo.addEventListener('click', undoLastSwipe);
+        dom.btnSwipePass.addEventListener('click', () => triggerProgrammaticSwipe('left'));
+        dom.btnSwipeLike.addEventListener('click', () => triggerProgrammaticSwipe('right'));
+        dom.btnSwipePeek.addEventListener('click', () => {
+          state.cardFlipped = !state.cardFlipped;
+          renderSwipeDeck();
+        });
+        dom.btnRestartDeck.addEventListener('click', () => {
+          rebuildFilteredDeck();
+          renderSwipeDeck();
+        });
+
+        // Keyboard Arrows for Birlikte Swipe Deck (← Geç, → Yiyelim, ↑ Malzeme Önizleme)
+        window.addEventListener('keydown', (e) => {
+          if (
+            state.activeTab !== 'together' ||
+            state.togetherSubTab !== 'swipe' ||
+            !dom.overlayRecipe.classList.contains('hidden') ||
+            !dom.overlayCooking.classList.contains('hidden') ||
+            !dom.modalMatch.classList.contains('hidden') ||
+            document.activeElement.tagName === 'INPUT'
+          ) {
+            return;
+          }
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            triggerProgrammaticSwipe('left');
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            triggerProgrammaticSwipe('right');
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            state.cardFlipped = !state.cardFlipped;
+            renderSwipeDeck();
+          }
+        });
+
+        // Match Modal Actions
+        dom.btnMatchContinue.addEventListener('click', closeMatchModal);
+        dom.btnMatchOpen.addEventListener('click', () => {
+          const id = state.pendingMatchId;
+          closeMatchModal();
+          if (id) openRecipeDetail(id, true);
+        });
+
+        // Shared Grocery List Actions
+        dom.btnWhatsappCopy.addEventListener('click', copySharedListForWhatsapp);
+        dom.btnClearBought.addEventListener('click', () => {
+          state.sharedItems = state.sharedItems.filter((i) => !i.checked);
+          savePersisted();
+          updateBadges();
+          renderSharedList();
+          showToast('Alınan malzemeler temizlendi.', 'dark');
+        });
+
+        // Tab 4: Kaydedilenler
+        dom.btnSavedExplore.addEventListener('click', () => switchTab('explore'));
+
+        // Recipe Detail Overlay
+        dom.btnRecipeBack.addEventListener('click', () => dom.overlayRecipe.classList.add('hidden'));
+        dom.btnRecipeFav.addEventListener('click', () => {
+          if (!state.activeRecipeId) return;
+          toggleFavorite(state.activeRecipeId);
+          renderRecipeDetail();
+          if (state.activeTab === 'explore') renderExplore();
+          if (state.activeTab === 'saved') renderSavedTab();
+        });
+        dom.portionBtns.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.servings = Number(btn.dataset.servings);
+            renderRecipeDetail();
+          });
+        });
+        dom.btnSwitchFriendMode.addEventListener('click', () => {
+          state.isFriendMode = true;
+          renderRecipeDetail();
+          showToast(`${partnerDisplayName()} ile Arkadaş Modu açıldı!`, 'success');
+        });
+        dom.btnExitFriendMode.addEventListener('click', () => {
+          state.isFriendMode = false;
+          renderRecipeDetail();
+          showToast('Tek başına tarif görünümüne geçildi.', 'dark');
+        });
+        dom.btnExportMissing.addEventListener('click', exportMissingIngredientsToSharedList);
+        dom.btnStartCooking.addEventListener('click', openCookingMode);
+
+        // Cooking Mode & Afiyet Olsun Completion View
+        dom.btnCookingClose.addEventListener('click', closeCookingMode);
+        dom.btnWakeLock.addEventListener('click', toggleWakeLock);
+        dom.btnTimerToggle.addEventListener('click', toggleTimer);
+        dom.btnTimerReset.addEventListener('click', () => {
+          stopTimer();
+          state.timerLeft = state.timerTotal;
+          updateTimerUI();
+        });
+        dom.btnCookingPrev.addEventListener('click', () => {
+          if (state.cookingStepIdx > 0) {
+            state.cookingStepIdx -= 1;
+            renderCookingStep();
+          }
+        });
+        dom.btnCookingNext.addEventListener('click', () => {
+          const recipe = getRecipe(state.activeRecipeId);
+          if (!recipe) return;
+          if (state.cookingStepIdx < recipe.steps.length - 1) {
+            state.cookingStepIdx += 1;
+            renderCookingStep();
+          } else {
+            openAfiyetOlsunView();
+          }
+        });
+
+        dom.btnCompleteToRecipe.addEventListener('click', () => {
+          closeCookingMode();
+        });
+        dom.btnCompleteToExplore.addEventListener('click', () => {
+          closeCookingMode();
+          dom.overlayRecipe.classList.add('hidden');
+          switchTab('explore');
+        });
+      }
+
+      function updateClock() {
+        const now = new Date();
+        dom.statusClock.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      }
+
+      // Generate a crisp 180x180 PNG apple-touch-icon on warm terracotta #C85A32
+      function generateAppleTouchIcon() {
+        try {
+          const link = $('apple-touch-icon-link');
+          if (!link) return;
+          const size = 180;
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return;
+
+          // Warm terracotta background gradient
+          const grad = ctx.createLinearGradient(0, 0, size, size);
+          grad.addColorStop(0, '#D96B43');
+          grad.addColorStop(0.55, '#C85A32');
+          grad.addColorStop(1, '#A84724');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, size, size);
+
+          // Subtle cream cloche & plate emblem
+          ctx.fillStyle = '#F7F1E8';
+
+          // Steam curl
+          ctx.beginPath();
+          ctx.moveTo(80, 56);
+          ctx.quadraticCurveTo(75, 42, 92, 34);
+          ctx.quadraticCurveTo(84, 46, 89, 56);
+          ctx.closePath();
+          ctx.fill();
+
+          // Cloche knob
+          ctx.beginPath();
+          ctx.arc(90, 65, 6.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Cloche dome
+          ctx.beginPath();
+          ctx.moveTo(42, 112);
+          ctx.bezierCurveTo(42, 78, 63, 68, 90, 68);
+          ctx.bezierCurveTo(117, 68, 138, 78, 138, 112);
+          ctx.closePath();
+          ctx.fill();
+
+          // Platter rim
+          const rx = 32, ry = 119, rw = 116, rh = 11, rad = 5.5;
+          ctx.beginPath();
+          ctx.moveTo(rx + rad, ry);
+          ctx.lineTo(rx + rw - rad, ry);
+          ctx.quadraticCurveTo(rx + rw, ry, rx + rw, ry + rad);
+          ctx.quadraticCurveTo(rx + rw, ry + rh, rx + rw - rad, ry + rh);
+          ctx.lineTo(rx + rad, ry + rh);
+          ctx.quadraticCurveTo(rx, ry + rh, rx, ry + rad);
+          ctx.quadraticCurveTo(rx, ry, rx + rad, ry);
+          ctx.closePath();
+          ctx.fill();
+
+          // Bowl base
+          ctx.globalAlpha = 0.92;
+          ctx.beginPath();
+          ctx.moveTo(54, 136);
+          ctx.lineTo(126, 136);
+          ctx.quadraticCurveTo(114, 152, 90, 152);
+          ctx.quadraticCurveTo(66, 152, 54, 136);
+          ctx.closePath();
+          ctx.fill();
+
+          link.href = canvas.toDataURL('image/png');
+        } catch (_) {}
+      }
+
+      function init() {
+        generateAppleTouchIcon();
+        updateClock();
+        setInterval(updateClock, 30000);
+        rebuildFilteredDeck();
+        bindEvents();
+        updateBadges();
+        switchTab('explore');
+        refreshIcons();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
